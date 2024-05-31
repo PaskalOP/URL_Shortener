@@ -36,11 +36,4 @@ public class NewShortURL {
 
     private LocalDate finishingDate;
 
-    // не знаю у мене чомусь без конструктора не пашить
-    public NewShortURL(String originURL, String shortURL, LocalDate creatingDate, LocalDate finishingDate) {
-        this.originURL = originURL;
-        this.shortURL = shortURL;
-        this.creatingDate = creatingDate;
-        this.finishingDate = finishingDate;
-    }
 }
