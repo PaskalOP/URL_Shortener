@@ -1,6 +1,6 @@
 package com.example.URL_Shortener;
 
-import com.example.URL_Shortener.entity.NewShortURL;
+import com.example.URL_Shortener.responseDTO.NewShortURL;
 import com.example.URL_Shortener.service.CreatorShortURL;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

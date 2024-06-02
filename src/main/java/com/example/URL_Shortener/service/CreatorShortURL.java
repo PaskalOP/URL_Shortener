@@ -1,6 +1,6 @@
 package com.example.URL_Shortener.service;
 
-import com.example.URL_Shortener.entity.NewShortURL;
+import com.example.URL_Shortener.responseDTO.NewShortURL;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

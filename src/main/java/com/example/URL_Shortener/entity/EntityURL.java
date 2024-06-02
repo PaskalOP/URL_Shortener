@@ -1,9 +1,6 @@
 package com.example.URL_Shortener.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
@@ -12,30 +9,37 @@ import java.util.UUID;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@Table(name = "urls")
 public class EntityURL {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ID;
-
-    @NotNull
+    @Column
     private String originURL;
-
-    @NotNull
+    @Column
     private String shortURL;
-
-    @NotNull
+    @Column (name = "countuse")
     private Long countUse;
-
-    @NotNull
+    @Column
     private UUID UserID;
-
-    @NotNull
+    @Column (name = "creatingdate")
     private LocalDate creatingDate;
-
+    @Column (name = "finishdate")
     private LocalDate finishDate;
+
+    public EntityURL(){
+        this.ID = UUID.randomUUID().getLeastSignificantBits()*(-1);
+    }
+
+    public EntityURL(String originURL, String shortURL, Long countUse, UUID userID, LocalDate creatingDate, LocalDate finishDate) {
+        this.ID = UUID.randomUUID().getLeastSignificantBits()*(-1);
+        this.originURL = originURL;
+        this.shortURL = shortURL;
+        this.countUse = countUse;
+        UserID = userID;
+        this.creatingDate = creatingDate;
+        this.finishDate = finishDate;
+    }
 }
