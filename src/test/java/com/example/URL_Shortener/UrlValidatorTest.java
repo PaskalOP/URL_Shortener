@@ -28,6 +28,7 @@ class UrlValidatorTest {
         //Перевірка валідатора на статус код 500(Помилка сервера)
         Assertions.assertEquals(true, urlValidator.isValidUrl("https://httpstat.us/500"));
     }
+
     @Test
     void testInvalidUrl() throws InvalidUrlException {
         //Перевірка валідатора на статус код 404(Не знайдено)
@@ -37,14 +38,15 @@ class UrlValidatorTest {
         //Перевірка валідатора на статус код 450(Заблоковано батьківським контролем)
         Assertions.assertEquals(false, urlValidator.isValidUrl("https://httpstat.us/450"));
     }
+
     @Test
     void testInvalidUrlThrowsException() {
-        // Перевірка валідатора на неправильну адресу посилання
+        //Перевірка валідатора на неправильну адресу посилання
         Assertions.assertThrows(InvalidUrlException.class, () -> {
             urlValidator.isValidUrl("hps://httpstat.us/404");
         });
         Assertions.assertThrows(InvalidUrlException.class, () -> {
-            urlValidator.isValidUrl("fasdaxcasda");
+            urlValidator.isValidUrl("dsdada");
         });
     }
 }

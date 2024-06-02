@@ -3,7 +3,9 @@ package com.example.URL_Shortener.service;
 import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.regex.Pattern;
 
@@ -23,14 +25,14 @@ public class UrlValidator {
      * @throws InvalidUrlException викидається, якщо URL-адреса є невалідною.
      */
     public boolean isValidUrl(String urlString) throws InvalidUrlException {
-        return pattern.matcher(urlString).matches() && isValidConnection(urlString);
+        return isValidConnection(urlString) && pattern.matcher(urlString).matches();
     }
 
     /**
      * Перевіряє, чи можна підключитися до URL-адреси.
      *
      * @param urlString URL-адреса для перевірки.
-     * @return true, якщо можна підключитися до URL-адреси та статус-код є валідним, в іншому випадку викидає виключення InvalidUrlException.
+     * @return true, якщо можна підключитися до URL-адреси та статус-код є валідним
      * @throws InvalidUrlException викидається, якщо не можна підключитися до URL-адреси або отриманий недійсний статус-код.
      */
     private boolean isValidConnection(String urlString) throws InvalidUrlException {
@@ -38,17 +40,14 @@ public class UrlValidator {
         try {
             URL url = new URL(urlString);
             connection = (HttpURLConnection) url.openConnection();
-            if (connection != null) {
-                int statusCode = connection.getResponseCode();
-                return isValidStatusCode(statusCode);
-            } else {
-                throw new InvalidUrlException("Failed to connect on this URL: " + urlString);
-            }
-        } catch (Exception e) {
+            int statusCode = connection.getResponseCode();
+            return isValidStatusCode(statusCode);
+        } catch (IOException e) {
             throw new InvalidUrlException("Failed to validate URL: " + urlString);
         } finally {
-            if (connection != null)
+            if (connection != null) {
                 connection.disconnect();
+            }
         }
     }
 
