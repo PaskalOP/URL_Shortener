@@ -23,10 +23,7 @@ public class UrlValidator {
      * @throws InvalidUrlException викидається, якщо URL-адреса є невалідною.
      */
     public boolean isValidUrl(String urlString) throws InvalidUrlException {
-        if (pattern.matcher(urlString).matches() && isValidConnection(urlString))
-            return true;
-                else
-                    throw new InvalidUrlException("Invalid URL: " + urlString);
+        return pattern.matcher(urlString).matches() && isValidConnection(urlString);
     }
 
     /**
