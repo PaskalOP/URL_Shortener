@@ -1,7 +1,7 @@
 package com.example.URL_Shortener.mapper;
 
 import com.example.URL_Shortener.entity.EntityURL;
-import com.example.URL_Shortener.entity.NewShortURL;
+import com.example.URL_Shortener.responseDTO.NewShortURL;
 import com.example.URL_Shortener.responseDTO.ResponseURLStatDTO;
 
 import java.util.List;
