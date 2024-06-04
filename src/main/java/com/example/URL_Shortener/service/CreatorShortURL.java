@@ -39,9 +39,9 @@ public class CreatorShortURL {
         return new NewShortURL(
                 originURL,
                 fullShortURL,
+                0L,
                 LocalDate.now(),
-                LocalDate.now().plusDays(validityDays),
-                0L
+                LocalDate.now().plusDays(validityDays)
         );
     }
 

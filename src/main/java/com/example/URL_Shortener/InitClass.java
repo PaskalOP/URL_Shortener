@@ -2,6 +2,8 @@ package com.example.URL_Shortener;
 
 import com.example.URL_Shortener.entity.EntityURL;
 import com.example.URL_Shortener.service.URLServiceImpl;
+import com.example.URL_Shortener.service.UrlValidator;
+import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +16,10 @@ import java.util.UUID;
 public class InitClass {
     @Autowired
     private URLServiceImpl service;
+    @Autowired
+    private UrlValidator validator;
     @PostConstruct
-    public void init (){
+    public void init () throws InvalidUrlException {
         EntityURL entity = new EntityURL();
         entity.setOriginURL("bla-bla");
         entity.setShortURL("lam");
@@ -36,8 +40,6 @@ public class InitClass {
             System.out.println(item.getID());
 
         }
-
-
 
     }
 }
