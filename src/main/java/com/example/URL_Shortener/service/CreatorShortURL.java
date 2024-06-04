@@ -1,6 +1,7 @@
 package com.example.URL_Shortener.service;
 
 import com.example.URL_Shortener.responseDTO.NewShortURL;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,6 +15,12 @@ import java.util.Random;
 @Service
 public class CreatorShortURL {
 
+    @Value("${short.url.port}")
+    private int shortUrlPort;
+
+    @Value("${short.url.validity.days}")
+    private int validityDays;
+
     /**
      * Метод створює новий об'єкт NewShortURL з вказаною оригінальною URL.
      *
@@ -21,13 +28,21 @@ public class CreatorShortURL {
      * @return Об'єкт NewShortURL з заповненими полями.
      */
     public NewShortURL createShortURL(String originURL) {
-        NewShortURL newShortURL = new NewShortURL();
-        newShortURL.setOriginURL(originURL); // Встановлюємо оригінальну URL
-        newShortURL.setShortURL(generateShortURL()); // Генеруємо коротку URL
-        newShortURL.setCreatingDate(LocalDate.now()); // Встановлюємо дату створення
-        newShortURL.setFinishingDate(newShortURL.getCreatingDate().plusDays(10)); // Встановлюємо дату закінчення (10 днів після створення)
-        newShortURL.setCountUse(0L); // Ініціалізуємо лічильник використань
-        return newShortURL;
+        // Генеруємо короткий URL
+        String shortURL = generateShortURL();
+
+        // Формуємо повний короткий URL + перевірка урли чи більше 0
+        String fullShortURL = "http://localhost" + (shortUrlPort > 0 ? ":" + shortUrlPort : "") + "/" + shortURL;
+
+
+        // Повертаємо новий об'єкт NewShortURL
+        return new NewShortURL(
+                originURL,
+                fullShortURL,
+                LocalDate.now(),
+                LocalDate.now().plusDays(validityDays),
+                0L
+        );
     }
 
     /**
