@@ -17,7 +17,8 @@ public class NewShortURL {
 
     private String originURL;
     private String shortURL;
+    private Long countUse;
     private LocalDate creatingDate;
     private LocalDate finishingDate;
-    private Long countUse;
+    
 }
