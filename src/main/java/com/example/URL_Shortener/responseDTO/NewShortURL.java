@@ -8,7 +8,7 @@ import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
-
+import java.util.UUID;
 
 
 @Data
@@ -26,5 +26,6 @@ public class NewShortURL {
     private Long countUse;
     private LocalDate creatingDate;
     private LocalDate finishingDate;
+
 
 }
