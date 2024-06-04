@@ -14,8 +14,9 @@ import java.util.Random;
  */
 @Service
 public class CreatorShortURL {
-    @Value("${short.url.template}")
-    private String shortUrlTemplate;
+
+    @Value("${short.url.port}")
+    private int shortUrlPort;
 
     @Value("${short.url.validity.days}")
     private int validityDays;
@@ -27,16 +28,21 @@ public class CreatorShortURL {
      * @return Об'єкт NewShortURL з заповненими полями.
      */
     public NewShortURL createShortURL(String originURL) {
+        // Генеруємо короткий URL
         String shortURL = generateShortURL();
-        String formattedShortURL = shortUrlTemplate.replace("{shortURL}", shortURL);
 
-        NewShortURL newShortURL = new NewShortURL();
-        newShortURL.setOriginURL(originURL); // Встановлюємо оригінальну URL
-        newShortURL.setShortURL(generateShortURL()); // Генеруємо коротку URL
-        newShortURL.setCreatingDate(LocalDate.now()); // Встановлюємо дату створення
-        newShortURL.setFinishingDate(newShortURL.getCreatingDate().plusDays(validityDays)); // Встановлюємо дату закінчення (10 днів після створення)
-        newShortURL.setCountUse(0L); // Ініціалізуємо лічильник використань
-        return newShortURL;
+        // Формуємо повний короткий URL + перевірка урли чи більше 0
+        String fullShortURL = "http://localhost" + (shortUrlPort > 0 ? ":" + shortUrlPort : "") + "/" + shortURL;
+
+
+        // Повертаємо новий об'єкт NewShortURL
+        return new NewShortURL(
+                originURL,
+                fullShortURL,
+                LocalDate.now(),
+                LocalDate.now().plusDays(validityDays),
+                0L
+        );
     }
 
     /**
