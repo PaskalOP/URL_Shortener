@@ -18,9 +18,6 @@ import java.util.UUID;
 @Setter
 public class NewShortURL {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Ідентифікатор сутності
     private String originURL;
     private String shortURL;
     private Long countUse;

@@ -4,6 +4,7 @@ import com.example.URL_Shortener.entity.EntityURL;
 import com.example.URL_Shortener.responseDTO.NewShortURL;
 import com.example.URL_Shortener.responseDTO.ResponseURLStatDTO;
 import com.example.URL_Shortener.service.CreatorShortURL;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-
+@Service
 public class Mapper {
     private final CreatorShortURL creatorShortURL = new CreatorShortURL();
 
@@ -40,7 +41,6 @@ public class Mapper {
         }
 
         NewShortURL newShortURL = new NewShortURL();
-        newShortURL.setId(UUID.randomUUID().getLeastSignificantBits() * (-1));
         newShortURL.setOriginURL(entityURL.getOriginURL());
         newShortURL.setShortURL(entityURL.getShortURL());
         newShortURL.setCountUse(Objects.requireNonNullElse(entityURL.getCountUse(), 0L));
@@ -72,7 +72,7 @@ public class Mapper {
         if (newShortURL == null) {
             throw new IllegalArgumentException("NewShortURL cannot be null");
         }
-        newShortURL.setId(UUID.randomUUID().getLeastSignificantBits() * (-1));
+
         EntityURL entityURL = new EntityURL();
         entityURL.setShortURL(newShortURL.getShortURL());
         entityURL.setOriginURL(newShortURL.getOriginURL());
