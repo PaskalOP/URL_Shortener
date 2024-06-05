@@ -38,7 +38,7 @@ class CreatorShortURLTest {
     @Test
     void testCreateShortURLShortURL() {
         assertNotNull(newShortURL.getShortURL()); // Перевіряємо, що короткий URL не є null
-        assertTrue(newShortURL.getShortURL().startsWith("http://localhost")); // Перевіряємо, що короткий URL починається з "http://localhost"
+        assertTrue(newShortURL.getShortURL().startsWith("http://localhost:")); // Перевіряємо, що короткий URL починається з "http://localhost"
     }
 
     @Test
