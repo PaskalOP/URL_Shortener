@@ -2,7 +2,7 @@ package com.example.URL_Shortener.service;
 
 import com.example.URL_Shortener.entity.EntityURL;
 import com.example.URL_Shortener.repository.RepositoryURL;
-import lombok.AllArgsConstructor;
+import com.example.URL_Shortener.service.exceptions.NonActiveUrlException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -54,5 +54,16 @@ public class URLServiceImpl implements URLService {
     @Override
     public void increaseCount(String shortURL) {
         repositoryURL.increaseCount(shortURL);
+    }
+
+    @Override
+    public String isActiveURL(String shortURL) {
+        EntityURL entityByShortURL = findByShortURL(shortURL);
+        LocalDate today = LocalDate.now();
+            if (entityByShortURL.getFinishDate().isAfter(today) || entityByShortURL.getFinishDate().isEqual(today)) {
+                increaseCount(shortURL);
+                return entityByShortURL.getOriginURL();
+            }
+        throw new NonActiveUrlException("The url isn`t active: " + shortURL);
     }
 }
