@@ -68,12 +68,10 @@ public class Mapper {
     }
 
 
-    public EntityURL mapFromNewShortURLToEntity(NewShortURL newShortURL){
+    public EntityURL mapFromNewShortURLToEntity(NewShortURL newShortURL,EntityURL entityURL){
         if (newShortURL == null) {
             throw new IllegalArgumentException("NewShortURL cannot be null");
         }
-
-        EntityURL entityURL = new EntityURL();
         entityURL.setShortURL(newShortURL.getShortURL());
         entityURL.setOriginURL(newShortURL.getOriginURL());
         entityURL.setCountUse(newShortURL.getCountUse());

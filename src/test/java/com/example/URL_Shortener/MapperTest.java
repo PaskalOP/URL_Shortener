@@ -91,7 +91,14 @@ public class MapperTest {
         newShortURL.setCreatingDate(LocalDate.now());
         newShortURL.setFinishingDate(LocalDate.now());
 
-        EntityURL entityURL = mapper.mapFromNewShortURLToEntity(newShortURL);
+        EntityURL entityURL = new EntityURL();
+        entityURL.setOriginURL("http://example.com");
+        entityURL.setShortURL("http://short.url/abc123");
+        entityURL.setCountUse(10L);
+        entityURL.setCreatingDate(LocalDate.of(2023,03,04) );
+        entityURL.setCreatingDate(LocalDate.of(2023,03,04) );
+
+        EntityURL editedEntityURL = mapper.mapFromNewShortURLToEntity(newShortURL,entityURL);
 
         // Assertions
         assertNotNull(entityURL);

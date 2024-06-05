@@ -11,10 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/V1/shorter")
@@ -39,4 +37,18 @@ public class URLController {
             throw new IllegalArgumentException("Invalid url");
         }
     }
+
+    @PostMapping("/editFull")
+    public HttpStatus editFullObject (@RequestBody NewShortURL data, @RequestParam String shortUrl){
+        try {
+
+            EntityURL entityForEdit = service.findByShortURL(shortUrl);
+            EntityURL editedEntity = mapper.mapFromNewShortURLToEntity(data,entityForEdit);
+            service.updateShortURL(editedEntity);
+            return HttpStatus.OK;
+        } catch (IllegalArgumentException e){
+            return HttpStatus.BAD_REQUEST;
+        }
+    }
+
 }
