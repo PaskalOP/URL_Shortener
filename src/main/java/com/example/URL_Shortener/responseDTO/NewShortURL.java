@@ -1,12 +1,8 @@
 package com.example.URL_Shortener.responseDTO;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @AllArgsConstructor
