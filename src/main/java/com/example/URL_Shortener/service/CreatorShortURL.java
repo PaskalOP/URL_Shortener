@@ -14,10 +14,6 @@ import java.util.Random;
  */
 @Service
 public class CreatorShortURL {
-
-    @Value("${short.url.port}")
-    private int shortUrlPort;
-
     @Value("${short.url.validity.days}")
     private int validityDays;
 
@@ -31,9 +27,9 @@ public class CreatorShortURL {
         // Генеруємо короткий URL
         String shortURL = generateShortURL();
 
-        // Формуємо повний короткий URL + перевірка урли чи більше 0
-        String fullShortURL = "http://localhost" + (shortUrlPort > 0 ? ":" + shortUrlPort : "") + "/" + shortURL;
-
+        // Формуємо повний короткий URL
+        String fullShortURL = "http://localhost:8080/" + shortURL;
+        System.out.println("Generated Short URL: " + fullShortURL);
 
         // Повертаємо новий об'єкт NewShortURL
         return new NewShortURL(
