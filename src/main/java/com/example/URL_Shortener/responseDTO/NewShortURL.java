@@ -21,4 +21,6 @@ public class NewShortURL {
     private LocalDate creatingDate;
     private LocalDate finishingDate;
 
+    public NewShortURL(String originURL, String fullShortURL, LocalDate now, LocalDate creatingDate, long l) {
+    }
 }
