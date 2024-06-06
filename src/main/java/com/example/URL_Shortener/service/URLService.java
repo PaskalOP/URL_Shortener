@@ -11,7 +11,7 @@ public interface URLService {
     EntityURL findByShortURL(String shortURL);
     EntityURL updateShortURL(EntityURL entityURL);
     List<EntityURL> activeURL();
-    boolean deleteURL(String shortURL);
+    void deleteURL(String shortURL);
     void increaseCount(String shortURL);
 
     String isActiveURL(String shortURL);

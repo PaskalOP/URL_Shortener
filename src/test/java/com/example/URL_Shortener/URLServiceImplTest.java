@@ -130,14 +130,12 @@ public class URLServiceImplTest {
 
     @Test
     public void testDeleteURL() {
-        // Arrange
-        when(repositoryURL.deleteURL(anyString())).thenReturn(true);
 
         // Act
-        boolean isDeleted = urlServiceImpl.deleteURL("shortURL4");
+        urlServiceImpl.deleteURL("shortURL4");
 
         // Assert
-        assertThat(isDeleted).isTrue();
+        verify(repositoryURL, times(1)).deleteURL("shortURL4");
     }
 
     @Test
