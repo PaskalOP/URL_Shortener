@@ -41,7 +41,7 @@ public class InitClass {
 
         }
 
-        System.out.println(validator.isValidUrl("https://miro.com/sign/"));
+
 
     }
 }

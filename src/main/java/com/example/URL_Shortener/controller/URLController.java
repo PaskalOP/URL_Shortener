@@ -25,15 +25,14 @@ public class URLController {
     private final UrlValidator validator;
 
     @GetMapping("/create")
-    public ResponseEntity<NewShortURL> createShortUrl(@RequestParam String originalUrl){
+    public ResponseEntity<String> createShortUrl(@RequestParam String originalUrl){
         try {
            if(validator.isValidUrl(originalUrl)){
                EntityURL entityURL = mapper.mapFromURLToEntity(originalUrl);
-               NewShortURL response = mapper.mapFromEntityToNewShortURL(entityURL);
                service.addShortURL(entityURL);
                return ResponseEntity
                        .status(HttpStatus.OK)
-                       .body(response);
+                       .body(entityURL.getShortURL());
            } else return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (InvalidUrlException e) {
             throw new IllegalArgumentException("Invalid url");
