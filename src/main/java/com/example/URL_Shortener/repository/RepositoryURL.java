@@ -20,7 +20,7 @@ public interface RepositoryURL extends JpaRepository<EntityURL, Long> {
     List<EntityURL> activeURL(@Param("today") LocalDate today);
 
     @Query(nativeQuery = true, value = "DELETE FROM urls WHERE shortURL = :shortURL")
-    boolean deleteURL(@Param("shortURL") String shortURL);
+    void deleteURL(@Param("shortURL") String shortURL);
 
     @Modifying
     @Query(nativeQuery = true, value = "UPDATE urls SET countUse = countUse + 1 WHERE shortURL = :shortURL")

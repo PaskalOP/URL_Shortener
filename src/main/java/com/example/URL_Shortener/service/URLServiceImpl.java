@@ -21,11 +21,17 @@ public class URLServiceImpl implements URLService {
 
     @Override
     public EntityURL addShortURL(EntityURL entityURL) {
+        if (entityURL == null){
+            throw new IllegalArgumentException("URL cannot be null");
+        }
         return repositoryURL.save(entityURL);
     }
 
     @Override
     public EntityURL findByShortURL(String shortURL) {
+        if (shortURL == null){
+            throw new IllegalArgumentException("URL cannot be null");
+        }
         return repositoryURL.findByShortURL(shortURL);
     }
     @Override
@@ -37,7 +43,7 @@ public class URLServiceImpl implements URLService {
         currentURL.setUserID(entityURL.getUserID());
         currentURL.setCreatingDate(LocalDate.now());
         currentURL.setFinishDate(LocalDate.now().plusDays(1));
-        return currentURL;
+        return repositoryURL.save(currentURL);
     }
 
     @Override
@@ -47,12 +53,18 @@ public class URLServiceImpl implements URLService {
     }
 
     @Override
-    public boolean deleteURL(String shortURL) {
-        return repositoryURL.deleteURL(shortURL);
+    public void deleteURL(String shortURL) {
+        if (shortURL == null){
+            throw new IllegalArgumentException("URL cannot be null");
+        }
+        repositoryURL.deleteURL(shortURL);
     }
 
     @Override
     public void increaseCount(String shortURL) {
+        if (shortURL == null){
+            throw new IllegalArgumentException("URL cannot be null");
+        }
         repositoryURL.increaseCount(shortURL);
     }
 
