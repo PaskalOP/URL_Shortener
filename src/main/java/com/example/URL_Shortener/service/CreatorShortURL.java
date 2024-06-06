@@ -29,7 +29,7 @@ public class CreatorShortURL {
 
         // Формуємо повний короткий URL
         String fullShortURL = "http://localhost:8080/" + shortURL;
-        System.out.println("Generated Short URL: " + fullShortURL);
+
 
         // Повертаємо новий об'єкт NewShortURL
         return new NewShortURL(
