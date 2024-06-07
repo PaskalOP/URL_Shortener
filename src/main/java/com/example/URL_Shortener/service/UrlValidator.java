@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.regex.Pattern;
 
@@ -15,7 +14,7 @@ import java.util.regex.Pattern;
 @Component
 public class UrlValidator {
     private static final String URL_PATTERN = "^(http|https)://.*$";
-    private static final Pattern pattern = Pattern.compile(URL_PATTERN);
+    private static final String SHORT_URL_PATTERN = "^http://localhost:9999/[a-zA-Z0-9]{6,8}$";
 
     /**
      * Перевіряє, чи є URL-адреса валідною.
@@ -25,7 +24,9 @@ public class UrlValidator {
      * @throws InvalidUrlException викидається, якщо URL-адреса є невалідною.
      */
     public boolean isValidUrl(String urlString) throws InvalidUrlException {
-        return isValidConnection(urlString) && pattern.matcher(urlString).matches();
+        if(!Pattern.compile(URL_PATTERN).matcher(urlString).matches())
+            throw new InvalidUrlException("URL must start with 'http://' or 'https://'", urlString);
+        return isValidConnection(urlString);
     }
 
     /**
@@ -41,16 +42,29 @@ public class UrlValidator {
             URL url = new URL(urlString);
             connection = (HttpURLConnection) url.openConnection();
             int statusCode = connection.getResponseCode();
-            return isValidStatusCode(statusCode);
+            if(isValidStatusCode(statusCode))
+                return true;
+            else throw new InvalidUrlException("Failed to connect to URL. Status code: " + statusCode , urlString);
         } catch (IOException e) {
-            throw new InvalidUrlException("Failed to validate URL: " + urlString);
+            throw new InvalidUrlException("Failed to connect to URL", urlString);
         } finally {
-            if (connection != null) {
+            if (connection != null)
                 connection.disconnect();
-            }
         }
     }
 
+    /**
+     * Перевіряє, чи є короткий URL валідним.
+     *
+     * @param shortUrlString короткий URL для перевірки.
+     * @return true, якщо короткий URL є валідним.
+     * @throws InvalidUrlException викидається, якщо короткий URL є невалідним.
+     */
+    public boolean isValidShortUrl(String shortUrlString) throws InvalidUrlException {
+        if(!Pattern.compile(SHORT_URL_PATTERN).matcher(shortUrlString).matches())
+            throw new InvalidUrlException("Short URL must start with 'http://localhost:9999/' and contain 6-8 characters after it", shortUrlString);
+        return true;
+    }
     /**
      * Перевіряє, чи є статус-код валідним.
      *
