@@ -78,6 +78,6 @@ public class URLServiceImpl implements URLService {
                 increaseCount(shortURL);
                 return entityByShortURL.getOriginURL();
             }
-        throw new NonActiveUrlException("The url isn`t active: " + shortURL);
+        throw new NonActiveUrlException("The URL isn`t active" , shortURL);
     }
 }

@@ -1,9 +1,13 @@
 package com.example.URL_Shortener.service.exceptions;
 
-import java.io.IOException;
+import lombok.Getter;
 
-public class InvalidUrlException extends IOException {
-    public InvalidUrlException(String message) {
+@Getter
+public class InvalidUrlException extends Exception {
+    private String invalidUrl;
+
+    public InvalidUrlException(String message, String invalidUrl) {
         super(message);
+        this.invalidUrl = invalidUrl;
     }
 }
