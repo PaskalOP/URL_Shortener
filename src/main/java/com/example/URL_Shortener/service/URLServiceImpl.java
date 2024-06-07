@@ -40,10 +40,7 @@ public class URLServiceImpl implements URLService {
         if (entityURL == null){
             throw new IllegalArgumentException("URL cannot be null");
         }
-
-
         return repositoryURL.save(entityURL);
-
     }
 
     @Override
@@ -59,7 +56,6 @@ public class URLServiceImpl implements URLService {
             throw new IllegalArgumentException("URL cannot be null");
         }
         repositoryURL.deleteURL(shortURL);
-
     }
 
     @Override

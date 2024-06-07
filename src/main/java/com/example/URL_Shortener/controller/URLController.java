@@ -25,29 +25,20 @@ public class URLController {
     private final UrlValidator validator;
 
     @GetMapping("/create")
-    public ResponseEntity<String> createShortUrl(@RequestParam String originalUrl){
-        try {
-           if(validator.isValidUrl(originalUrl)){
-               EntityURL entityURL = mapper.mapFromURLToEntity(originalUrl);
-               service.addShortURL(entityURL);
-               return ResponseEntity
-                       .status(HttpStatus.OK)
-                       .body(entityURL.getShortURL());
-           } else return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        } catch (InvalidUrlException e) {
-            throw new IllegalArgumentException("Invalid url");
-        }
+    public ResponseEntity<String> createShortUrl(@RequestParam String originalUrl) throws InvalidUrlException{
+        validator.isValidUrl(originalUrl);
+        EntityURL entityURL = mapper.mapFromURLToEntity(originalUrl);
+        service.addShortURL(entityURL);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(entityURL.getShortURL());
     }
     @PostMapping("/editFull")
-    public HttpStatus editFullObject (@RequestBody NewShortURL data, @RequestParam String shortUrl){
-        try {
-            EntityURL entityForEdit = service.findByShortURL(shortUrl);
-            EntityURL editedEntity = mapper.mapFromNewShortURLToEntity(data,entityForEdit);
-            service.updateShortURL(editedEntity);
-            return HttpStatus.OK;
-        } catch (IllegalArgumentException e){
-            return HttpStatus.BAD_REQUEST;
-        }
+    public HttpStatus editFullObject (@RequestBody NewShortURL data, @RequestParam String shortUrl) throws IllegalArgumentException {
+        EntityURL entityForEdit = service.findByShortURL(shortUrl);
+        EntityURL editedEntity = mapper.mapFromNewShortURLToEntity(data,entityForEdit);
+        service.updateShortURL(editedEntity);
+        return HttpStatus.OK;
     }
     @GetMapping("/active")
     public ResponseEntity<List<ResponseURLStatDTO>> activeUrls(){
@@ -63,9 +54,9 @@ public class URLController {
     }
 
     @DeleteMapping("/delete")
-    public HttpStatus deleteUrl(@RequestParam String shortURL){
-        if(service.deleteURL(shortURL)) return HttpStatus.OK;
-        else return HttpStatus.BAD_REQUEST;
+    public ResponseEntity<String>  deleteUrl(@RequestParam String shortURL) throws IllegalArgumentException  {
+        service.deleteURL(shortURL);
+        return  ResponseEntity.status(HttpStatus.OK).body("Deleted");
     }
 
 
