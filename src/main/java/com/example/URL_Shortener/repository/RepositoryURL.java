@@ -1,6 +1,7 @@
 package com.example.URL_Shortener.repository;
 
 import com.example.URL_Shortener.entity.EntityURL;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -29,5 +30,10 @@ public interface RepositoryURL extends JpaRepository<EntityURL, Long> {
     @Modifying
     @Query(nativeQuery = true, value = "UPDATE urls SET countUse = countUse + 1 WHERE shortURL = :shortURL")
     void increaseCount(@Param("shortURL") String shortURL);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "DELETE FROM urls WHERE shortURL LIKE %:shortURL%")
+    int deleteByShortURL(@Param("shortURL") String shortURL);
 
 }

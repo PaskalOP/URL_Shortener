@@ -216,19 +216,24 @@
                 </table>
             </div>
         </div>
-        <div class="grid-item ">
 
-            <form action="/api/V2/shorter/delete" method="post">
-                <input type="hidden" name="_method" value="delete">
-                <div class="nameFieldcreate">
-                    <label class="nameField" for="shortURL">Short URL to delete:</label>
-                </div>
-                <div class="Fieldcreate">
-                    <input class="inputFieldcreate" type="text" id="shortURL" name="shortURL">
-                </div>
-                <button id="deleteButton" class="btn2" type="button">DELETE</button>
-            </form>
+        <div class="grid-item">
+            <h2 class="titleBlock">Delete short URL</h2>
+            <div class="delete_container">
+                <form id="deleteForm" action="/api/V2/shorter/delete" method="post">
+                    <input type="hidden" name="_method" value="delete">
+                    <div class="nameFieldcreate">
+                        <label for="shortURL">Short URL to delete:</label>
+                    </div>
+                    <div class="Fieldcreate">
+                        <input class="inputFieldcreate" type="text" id="shortURL" name="shortURL" required><br>
+                    </div>
+                    <button class="btn2" type="submit">DELETE</button>
+                </form>
+            </div>
         </div>
+
+
         <div class="grid-item ">
             <h2 class="titleBlock">Active URLs</h2>
             <div class="tableContainer">
@@ -277,25 +282,32 @@
     </div>
 
     <script>
-    document.getElementById('createForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        var originalUrl = document.getElementById('originalUrl').value;
-        window.location.href = '/all';
-    });
-</script>
+        document.getElementById('createForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var originalUrl = document.getElementById('originalUrl').value;
+            window.location.href = '/all';
+        });
 
-    <script>
-        document.getElementById("deleteButton").addEventListener("click", function() {
-            var shortURL = document.getElementById("shortURL").value;
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "/api/V2/shorter/delete", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    window.location.reload();
+
+        document.getElementById('deleteForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var form = event.target;
+            var formData = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = '/all';
+                } else {
+                    response.json().then(data => {
+                        alert("Error: " + (data.errors ? data.errors.join(", ") : "Unknown error"));
+                    });
                 }
-            };
-            xhr.send("shortURL=" + encodeURIComponent(shortURL));
+            }).catch(error => {
+                console.error("Error:", error);
+                alert("Error deleting record. Please try again.");
+            });
         });
     </script>
 </body>

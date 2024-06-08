@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class URLServiceImpl implements URLService {
@@ -21,7 +22,7 @@ public class URLServiceImpl implements URLService {
 
     @Override
     public EntityURL addShortURL(EntityURL entityURL) {
-        if (entityURL == null){
+        if (entityURL == null) {
             throw new IllegalArgumentException("URL cannot be null");
         }
         return repositoryURL.save(entityURL);
@@ -29,15 +30,16 @@ public class URLServiceImpl implements URLService {
 
     @Override
     public EntityURL findByShortURL(String shortURL) {
-        if (shortURL == null){
+        if (shortURL == null) {
             throw new IllegalArgumentException("URL cannot be null");
         }
         return repositoryURL.findByShortURL(shortURL);
     }
+
     @Override
     public EntityURL updateShortURL(EntityURL entityURL) {
 
-        if (entityURL == null){
+        if (entityURL == null) {
             throw new IllegalArgumentException("URL cannot be null");
         }
         return repositoryURL.save(entityURL);
@@ -52,7 +54,7 @@ public class URLServiceImpl implements URLService {
     @Override
 
     public void deleteURL(String shortURL) {
-        if (shortURL == null){
+        if (shortURL == null) {
             throw new IllegalArgumentException("URL cannot be null");
         }
         repositoryURL.deleteURL(shortURL);
@@ -60,7 +62,7 @@ public class URLServiceImpl implements URLService {
 
     @Override
     public void increaseCount(String shortURL) {
-        if (shortURL == null){
+        if (shortURL == null) {
             throw new IllegalArgumentException("URL cannot be null");
         }
         repositoryURL.increaseCount(shortURL);
@@ -70,10 +72,17 @@ public class URLServiceImpl implements URLService {
     public String isActiveURL(String shortURL) {
         EntityURL entityByShortURL = findByShortURL(shortURL);
         LocalDate today = LocalDate.now();
-            if (entityByShortURL.getFinishDate().isAfter(today) || entityByShortURL.getFinishDate().isEqual(today)) {
-                increaseCount(shortURL);
-                return entityByShortURL.getOriginURL();
-            }
-        throw new NonActiveUrlException("The URL isn`t active" , shortURL);
+        if (entityByShortURL.getFinishDate().isAfter(today) || entityByShortURL.getFinishDate().isEqual(today)) {
+            increaseCount(shortURL);
+            return entityByShortURL.getOriginURL();
+        }
+        throw new NonActiveUrlException("The URL isn`t active", shortURL);
     }
+
+    @Override
+    public boolean deleteByShortURL(String shortURL) {
+        int deletedCount = repositoryURL.deleteByShortURL(shortURL);
+        return deletedCount > 0;
+    }
+
 }

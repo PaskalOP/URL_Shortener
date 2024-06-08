@@ -15,4 +15,6 @@ public interface URLService {
     void increaseCount(String shortURL);
 
     String isActiveURL(String shortURL);
+
+    boolean deleteByShortURL(String shortURL);
 }
