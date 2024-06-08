@@ -13,6 +13,6 @@ public interface URLService {
     List<EntityURL> activeURL();
     void deleteURL(String shortURL);
     void increaseCount(String shortURL);
-
+    EntityURL increaseValue(EntityURL entityURL);
     String isActiveURL(String shortURL);
 }
