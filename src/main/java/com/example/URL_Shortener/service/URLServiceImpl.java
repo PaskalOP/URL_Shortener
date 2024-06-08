@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
+
 @RequiredArgsConstructor
 @Service
 public class URLServiceImpl implements URLService {
@@ -67,11 +69,21 @@ public class URLServiceImpl implements URLService {
     }
 
     @Override
+    public EntityURL increaseValue(EntityURL entityURL) {
+        if (entityURL == null){
+            throw new IllegalArgumentException("URL cannot be null");
+        }
+        entityURL.setCountUse(Objects.requireNonNullElse(entityURL.getCountUse(), 0L)+1);
+        return repositoryURL.save(entityURL);
+    }
+
+    @Override
     public String isActiveURL(String shortURL) {
         EntityURL entityByShortURL = findByShortURL(shortURL);
         LocalDate today = LocalDate.now();
             if (entityByShortURL.getFinishDate().isAfter(today) || entityByShortURL.getFinishDate().isEqual(today)) {
-                increaseCount(shortURL);
+                entityByShortURL = increaseValue(entityByShortURL);
+//                increaseCount(shortURL);
                 return entityByShortURL.getOriginURL();
             }
         throw new NonActiveUrlException("The URL isn`t active" , shortURL);
