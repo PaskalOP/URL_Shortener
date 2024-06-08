@@ -4,14 +4,12 @@ import com.example.URL_Shortener.entity.EntityURL;
 import com.example.URL_Shortener.mapper.Mapper;
 import com.example.URL_Shortener.responseDTO.NewShortURL;
 import com.example.URL_Shortener.responseDTO.ResponseURLStatDTO;
-import com.example.URL_Shortener.service.CreatorShortURL;
 import com.example.URL_Shortener.service.URLServiceImpl;
 import com.example.URL_Shortener.service.UrlValidator;
 import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +31,7 @@ public class URLController {
                 .status(HttpStatus.OK)
                 .body(entityURL.getShortURL());
     }
+
     @PostMapping("/editFull")
     public HttpStatus editFullObject (@RequestBody NewShortURL data, @RequestParam String shortUrl) throws IllegalArgumentException {
         EntityURL entityForEdit = service.findByShortURL(shortUrl);
@@ -40,12 +39,14 @@ public class URLController {
         service.updateShortURL(editedEntity);
         return HttpStatus.OK;
     }
+
     @GetMapping("/active")
     public ResponseEntity<List<ResponseURLStatDTO>> activeUrls(){
         List<EntityURL> urls = service.activeURL();
         List<ResponseURLStatDTO> response = mapper.mapFromListEntityToListResponseURLStatDTO(urls);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
     @GetMapping("/all")
     public ResponseEntity<List<ResponseURLStatDTO>> allUrls(){
         List<EntityURL> urls = service.getAllURLs();

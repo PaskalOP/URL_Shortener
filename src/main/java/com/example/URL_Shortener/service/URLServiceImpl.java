@@ -85,7 +85,8 @@ public class URLServiceImpl implements URLService {
         LocalDate today = LocalDate.now();
 
         if (entityByShortURL.getFinishDate().isAfter(today) || entityByShortURL.getFinishDate().isEqual(today)) {
-            increaseCount(shortURL);
+            entityByShortURL.setCountUse( entityByShortURL.getCountUse()+1);
+            repositoryURL.save(entityByShortURL);
             return entityByShortURL.getOriginURL();
         }
         throw new NonActiveUrlException("The URL isn`t active", shortURL);
