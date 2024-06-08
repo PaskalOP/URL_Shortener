@@ -53,7 +53,7 @@ public class URLServiceImplTest {
 
         // Assert
         assertThat(urls).hasSize(5);
-        assertThat(urls).extracting(EntityURL::getShortURL).containsExactly("NewShortURL01", "NewShortURL02", "NewShortURL03", "NewShortURL04", "NewShortURL05s");
+        assertThat(urls).extracting(EntityURL::getShortURL).containsExactly("NewShortURL01", "NewShortURL02", "NewShortURL03", "NewShortURL04", "NewShortURL05");
     }
 
     @Test
@@ -94,6 +94,8 @@ public class URLServiceImplTest {
         url.setOriginURL("originalURL3");
         url.setCountUse(0L);
         url.setUserID(UUID.randomUUID());
+
+        // Mock the repository to return the URL
         when(repositoryURL.findByShortURL(anyString())).thenReturn(url);
 
         // Act

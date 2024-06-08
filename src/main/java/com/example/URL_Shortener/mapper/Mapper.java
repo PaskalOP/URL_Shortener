@@ -3,6 +3,7 @@ package com.example.URL_Shortener.mapper;
 import com.example.URL_Shortener.entity.EntityURL;
 import com.example.URL_Shortener.responseDTO.NewShortURL;
 import com.example.URL_Shortener.responseDTO.ResponseURLStatDTO;
+import com.example.URL_Shortener.responseDTO.ResponseURLStatDTOForMVC;
 import com.example.URL_Shortener.service.CreatorShortURL;
 import org.springframework.stereotype.Service;
 
@@ -82,4 +83,21 @@ public class Mapper {
         return entityURL;
 
     }
+
+
+
+    public List<ResponseURLStatDTOForMVC> mapFromListEntityToListResponseURLStatDTOForMVC(List<EntityURL> entityURLList) {
+        return entityURLList.stream()
+                .map(this::mapEntityURLToResponseURLStatDTOForMVC)
+                .collect(Collectors.toList());
+    }
+
+    private ResponseURLStatDTOForMVC mapEntityURLToResponseURLStatDTOForMVC(EntityURL entityURL) {
+        ResponseURLStatDTOForMVC dtoForMVC = new ResponseURLStatDTOForMVC();
+        dtoForMVC.setShortURL(entityURL.getShortURL());
+        dtoForMVC.setURL(entityURL.getOriginURL());
+        dtoForMVC.setCountUse(entityURL.getCountUse());
+        return dtoForMVC;
+    }
+
 }

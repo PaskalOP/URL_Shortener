@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
+        html {
+            background-image: linear-gradient(to right bottom, #92e9ae, #4ee1c6, #00d6e1, #00c7f6, #00b4ff, #6ba7fd, #9c99f0, #bf8ada, #d189c2, #d78cae, #d593a0, #cc9b99);
+            background-attachment: fixed;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* Два стовпці за замовчуванням */
+            gap: 20px;
+            padding: 20px;
+            /* background-color: blue; */
+            width: 80%;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+        
+        .grid-item {
+            /* border: 1px solid black; */
+            background-color: rgba(173, 216, 230, 0.63);
+            padding: 20px;
+            column-gap: 10px;
+            /* text-align: center; */
+            height: 300px;
+            width: 90%;
+            border-radius: 16px;
+            font-family: "Exo 2", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 200;
+            font-style: normal;
+        }
+        /* Адаптивність */
+        
+        @media only screen and (max-width: 600px) {
+            .grid-container {
+                grid-template-columns: repeat(1, 1fr);
+                /* Одна колонка при ширині екрана менше 600px */
+            }
+        }
+        
+        .tableContainer {
+            display: block;
+            margin: 0 auto;
+            position: relative;
+            width: 100%;
+            height: 280px;
+            text-align: center;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+        
+        .tableUrls {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .tableUrls th,
+        .tableUrls td {
+            padding: 8px;
+            border: 1px solid rgba(221, 221, 221, 0.397);
+            word-wrap: break-word;
+        }
+        
+        .tableUrls th,
+        .tableUrls td {
+            transition: background-color 0.3s;
+        }
+        
+        .tableUrls td:hover {
+            background-color: #cc97e0;
+        }
+        
+        .tableUrls thead {
+            /* position: sticky; */
+            top: 0;
+            /* background-color: #00d6e1; */
+            z-index: 1;
+        }
+        
+        a {
+            text-decoration: none;
+            font-family: "Exo 2", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+            color: black;
+        }
+        
+        .titleBlock {
+            margin-top: -12px;
+            margin-left: -10px;
+            font-size: 22px;
+            font-family: "Exo 2", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: bold;
+            font-style: normal;
+            text-align: center;
+        }
+        
+        .btn1,
+        .btn2,
+        .btned {
+            position: absolute;
+            width: 120px;
+            height: 40px;
+            border-radius: 50px;
+            background-color: transparent;
+            color: rgb(0, 0, 0);
+            border: 1px solid black;
+        }
+        
+        .btn1 {
+            margin-top: 170px;
+        }
+        
+        .btn2 {
+            margin-top: 170px;
+        }
+        
+        .btn {
+            margin-top: 30px;
+            /* background-color: #00c7f6; */
+            width: 100%;
+            text-align: left;
+        }
+        
+        .btn1:hover,
+        .btn2:hover,
+        .btned:hover {
+            background-color: #D382CA;
+            color: rgb(255, 255, 255);
+            border: transparent;
+        }
+        
+        .nameFieldcreate {
+            position: relative;
+            text-align: center;
+            top: 20px;
+            margin: 0 auto;
+        }
+        
+        .Fieldcreate {
+            margin: 0 auto;
+            top: 80px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .inputFieldcreate {
+            width: 300px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid black;
+            background-color: #ffffff65;
+        }
+        
+        .editForm {
+            text-align: center;
+        }
+        
+        .inputFieldEdit {
+            width: 300px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid black;
+            background-color: #ffffff65;
+        }
+    </style>
+</head>
+
+<body class="main_body">
+
+    <div class="grid-container">
+        <div class="grid-item">
+            <h2 class="titleBlock">Create short URL</h2>
+            <div class="create_container">
+
+                <form action="/api/V2/shorter/create" method="post">
+                    <div class="nameFieldcreate">
+                        <label for="originalUrl">Original URL:</label>
+                    </div>
+                    <div class="Fieldcreate">
+                        <input class="inputFieldcreate" type="text" id="originalUrl" name="originalUrl" required><br>
+                    </div>
+                    <button class="btn1" type="submit">CREATE</button>
+                </form>
+            </div>
+
+
+        </div>
+        <div class="grid-item">
+            <h2 class="titleBlock">All URLs</h2>
+            <div class="tableContainer">
+                <table class="tableUrls">
+                    <thead>
+                        <tr>
+                            <th>Short URL</th>
+                            <th>Original URL</th>
+                            <th>Usage Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="url : ${urls}">
+                            <td><a th:href="${url.shortURL}" th:text="${url.shortURL}">Short URL</a></td>
+                            <td><a th:href="${url.URL}" th:text="${url.URL}">Original URL</a></td>
+                            <td th:text="${url.countUse}">Usage Count</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="grid-item ">
+
+            <form action="/api/V2/shorter/delete" method="post">
+                <input type="hidden" name="_method" value="delete">
+                <div class="nameFieldcreate">
+                    <label class="nameField" for="shortURL">Short URL to delete:</label>
+                </div>
+                <div class="Fieldcreate">
+                    <input class="inputFieldcreate" type="text" id="shortURL" name="shortURL">
+                </div>
+                <button id="deleteButton" class="btn2" type="button">DELETE</button>
+            </form>
+        </div>
+        <div class="grid-item ">
+            <h2 class="titleBlock">Active URLs</h2>
+            <div class="tableContainer">
+
+                <table class="tableUrls ">
+                    <thead>
+                        <tr>
+                            <th>Short URL</th>
+                            <th>Original URL</th>
+                            <th>Usage Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="url : ${urls} ">
+                            <td><a th:href="${url.shortURL} " th:text="${url.shortURL} ">Short URL</a></td>
+                            <td><a th:href="${url.URL} " th:text="${url.URL} ">Original URL</a></td>
+                            <td th:text="${url.countUse} ">Usage Count</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+
+
+        <div class="grid-item ">
+            <h2 class="titleBlock">Edit URL</h2>
+            <form class="editForm" action="/api/V2/shorter/editFull " method="post ">
+                <div class="editfieldcomp">
+                    <label class="nameFieldEdit" for="shortURL ">Short URL:</label><br><br>
+                    <input class="inputFieldEdit" type="text " id="shortURL " name="shortUrl "><br><br><br>
+                    <label class="nameFieldEdit" for="newOriginalURL ">New Original URL:</label><br><br>
+                    <input class="inputFieldEdit" type="text " id="newOriginalURL " name="newOriginalURL ">
+                </div>
+                <div class="btn">
+                    <button class="btned" type="submit">EDIT</button>
+                </div>
+            </form>
+        </div>
+        <div class="grid-item ">
+
+
+            6
+        </div>
+    </div>
+
+    <script>
+    document.getElementById('createForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var originalUrl = document.getElementById('originalUrl').value;
+        window.location.href = '/all';
+    });
+</script>
+
+    <script>
+        document.getElementById("deleteButton").addEventListener("click", function() {
+            var shortURL = document.getElementById("shortURL").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/api/V2/shorter/delete", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    window.location.reload();
+                }
+            };
+            xhr.send("shortURL=" + encodeURIComponent(shortURL));
+        });
+    </script>
+</body>
+
+</html>
