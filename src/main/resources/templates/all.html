@@ -178,7 +178,7 @@
             /* background-color: #00c7f6; */
             width: 100%;
             text-align: center;
-            margin-top: 30px;
+            margin-top: 50px;
         }
         
         .about {
@@ -186,7 +186,39 @@
             /* background-color: #00f621; */
             width: 100%;
             text-align: center;
-            margin-top: 30px;
+            margin-top: 50px;
+        }
+        
+        .resthref {
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 50px;
+            /* background-color: #92e9ae; */
+            border: 1px solid #92e9ae;
+            cursor: pointer;
+        }
+        
+        .aboutHref {
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 50px;
+            /* background-color: #c692e9; */
+            border: 1px solid #c692e9;
+            cursor: pointer;
+        }
+        
+        .resthref:hover {
+            background-color: #92e9ae;
+            /* border: 1px solid #92e9ae; */
+        }
+        
+        .aboutHref:hover {
+            background-color: #c692e9;
+            /* border: 1px solid #c692e9; */
         }
     </style>
 </head>
@@ -294,10 +326,10 @@
 
         <div class="grid-item adaptivewidth">
             <div class="restsrc">
-                <a class="redHref" th:href="@{index}"> Rest API documentation </a>
+                <a class="resthref" href="http://localhost:9999/swagger-ui/index.html"> Rest API documentation </a>
             </div>
             <div class="about">
-                <a class="redHref" th:href="@{about}">About us </a>
+                <a class="aboutHref" th:href="@{about}">About us </a>
             </div>
         </div>
     </div>
