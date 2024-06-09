@@ -61,12 +61,6 @@ public class URLMvcController {
         return modelAndView;
     }
 
-//    @PostMapping("/delete")
-//    public ModelAndView deleteUrl(@RequestParam String shortURL) throws IllegalArgumentException {
-//        service.deleteURL(shortURL);
-//        return new ModelAndView("redirect:/api/V2/shorter/all");
-//    }
-
     @PostMapping("/delete")
     public ModelAndView deleteShortURL(@RequestParam String shortURL) {
         ModelAndView modelAndView = new ModelAndView("redirect:/api/V2/shorter/all");
