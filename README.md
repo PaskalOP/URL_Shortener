@@ -1,5 +1,6 @@
-${DB_URL} - посилання для підключення до бази данних
-${DB_USERNAME} - імʼя юзера для налаштування бази данних
-${DB_PASSWORD} - пароль для налаштування доступу до бази данних
-${JWT_SECRET} - секретне слово для токена
-${JWT_EXPIRATION} - час який живе токен
+JWT_EXPIRATION
+JWT_SECRET
+PASSWORD_H2
+PASSWORD_POSTGRES
+URL_H2
+URL_POSTGRES
