@@ -99,5 +99,8 @@ public class Mapper {
         dtoForMVC.setCountUse(entityURL.getCountUse());
         return dtoForMVC;
     }
+    public EntityURL mapFromStringToEnyity(String jsonData, EntityURL entityForEdit){
+        return entityForEdit;
+    }
 
 }
