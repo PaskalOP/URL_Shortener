@@ -1,7 +1,9 @@
 package com.example.URL_Shortener.service;
 
+import com.example.URL_Shortener.config.MainExceptionHandler;
 import com.example.URL_Shortener.entity.EntityURL;
 import com.example.URL_Shortener.repository.RepositoryURL;
+import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
 import com.example.URL_Shortener.service.exceptions.NonActiveUrlException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -35,7 +38,8 @@ public class URLServiceImpl implements URLService {
         if (shortURL == null) {
             throw new IllegalArgumentException("URL cannot be null");
         }
-        return repositoryURL.findByShortURL(shortURL);
+        return Optional.ofNullable(repositoryURL.findByShortURL(shortURL))
+                .orElseThrow(() -> new InvalidUrlException("The URL isn`t found", shortURL));
     }
 
     @Override
@@ -59,7 +63,13 @@ public class URLServiceImpl implements URLService {
         if (shortURL == null) {
             throw new IllegalArgumentException("URL cannot be null");
         }
-        repositoryURL.deleteURL(shortURL);
+        Optional<EntityURL> optionalEntityURL = Optional.ofNullable(repositoryURL.findByShortURL(shortURL));
+        if (optionalEntityURL.isPresent()){
+            repositoryURL.deleteURL(shortURL);
+        }else {
+            throw new InvalidUrlException("The URL isn`t found", shortURL);
+        }
+
     }
 
     @Override
@@ -93,7 +103,7 @@ public class URLServiceImpl implements URLService {
 
     }
 
-    @Override
+   @Override
     public boolean deleteByShortURL(String shortURL) {
         int deletedCount = repositoryURL.deleteByShortURL(shortURL);
         return deletedCount > 0;
