@@ -23,7 +23,7 @@ public class EntityURL {
     @Column (name = "countuse")
     private Long countUse;
     @Column
-    private UUID UserID;
+    private String login;
     @Column (name = "creatingdate")
     private LocalDate creatingDate;
     @Column (name = "finishdate")
@@ -33,12 +33,12 @@ public class EntityURL {
         this.ID = UUID.randomUUID().getLeastSignificantBits()*(-1);
     }
 
-    public EntityURL(String originURL, String shortURL, Long countUse, UUID userID, LocalDate creatingDate, LocalDate finishDate) {
+    public EntityURL(String originURL, String shortURL, Long countUse, String login, LocalDate creatingDate, LocalDate finishDate) {
         this.ID = UUID.randomUUID().getLeastSignificantBits()*(-1);
         this.originURL = originURL;
         this.shortURL = shortURL;
         this.countUse = countUse;
-        UserID = userID;
+        this.login = login;
         this.creatingDate = creatingDate;
         this.finishDate = finishDate;
     }

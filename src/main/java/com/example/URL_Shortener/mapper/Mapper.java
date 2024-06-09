@@ -29,7 +29,7 @@ public class Mapper {
         entity.setOriginURL(originURL);
         entity.setShortURL(newShortURL.getShortURL());
         entity.setCountUse(newShortURL.getCountUse());
-        entity.setUserID(UUID.randomUUID());
+        /// entity.setUserID(UUID.randomUUID()); - тут треба підставляти юзера який зайшов
         entity.setCreatingDate(newShortURL.getCreatingDate());
         entity.setFinishDate(newShortURL.getFinishingDate());
         return entity;
@@ -76,7 +76,7 @@ public class Mapper {
         entityURL.setShortURL(newShortURL.getShortURL());
         entityURL.setOriginURL(newShortURL.getOriginURL());
         entityURL.setCountUse(newShortURL.getCountUse());
-        entityURL.setUserID(UUID.randomUUID());
+       // entityURL.setUserID(UUID.randomUUID()); - взяти з токена
         entityURL.setCreatingDate(newShortURL.getCreatingDate());
         entityURL.setFinishDate(newShortURL.getFinishingDate());
 

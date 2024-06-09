@@ -10,14 +10,14 @@ public class DataForTest {
 
     public static EntityURL first = new EntityURL("www.google17777778.com",
                 "www.gog789789789.com",
-                2L, UUID.randomUUID(),
+                2L, "login",
                 LocalDate.now(),
                 LocalDate.of(2024, 6, 6)
         );
 
         public static EntityURL second = new EntityURL("www.google1778.com",
                 "www.gog7899.com",
-                2L, UUID.randomUUID(),
+                2L, "logon",
                 LocalDate.now(),
                 LocalDate.of(2024, 6, 4)
         );
