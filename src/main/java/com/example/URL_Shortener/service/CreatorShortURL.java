@@ -1,5 +1,6 @@
 package com.example.URL_Shortener.service;
 
+import com.example.URL_Shortener.entity.EntityURL;
 import com.example.URL_Shortener.responseDTO.NewShortURL;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,23 +24,25 @@ public class CreatorShortURL {
      * @param originURL Оригінальна URL, яку потрібно скоротити.
      * @return Об'єкт NewShortURL з заповненими полями.
      */
-    public NewShortURL createShortURL(String originURL) {
+
+    public EntityURL createShortURL(String originURL, String login) {
         // Генеруємо короткий URL
         String shortURL = generateShortURL();
 
         // Формуємо повний короткий URL
         String fullShortURL = "http://localhost:9999/" + shortURL;
 
-
-        // Повертаємо новий об'єкт NewShortURL
-        return new NewShortURL(
+        // Повертаємо новий об'єкт EntityURL
+        return new EntityURL(
                 originURL,
                 fullShortURL,
                 0L,
+                login,
                 LocalDate.now(),
                 LocalDate.now().plusDays(validityDays)
         );
     }
+
 
     /**
      * Метод генерує випадковий короткий URL довжиною від 6 до 8 символів.
