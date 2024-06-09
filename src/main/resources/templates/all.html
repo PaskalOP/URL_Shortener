@@ -220,6 +220,30 @@
             background-color: #c692e9;
             /* border: 1px solid #c692e9; */
         }
+        
+        .miro {
+            position: relative;
+            /* background-color: #00f621; */
+            width: 100%;
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .miroHref {
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 50px;
+            /* background-color: #c692e9; */
+            border: 1px solid #dfe23a;
+            cursor: pointer;
+        }
+        
+        .miroHref:hover {
+            background-color: #dfe23a;
+            /* border: 1px solid #c692e9; */
+        }
     </style>
 </head>
 
@@ -330,6 +354,10 @@
             </div>
             <div class="about">
                 <a class="aboutHref" th:href="@{about}">About us </a>
+            </div>
+
+            <div class="miro">
+                <a class="miroHref" href="https://miro.com/app/board/uXjVKBBN9MA=/">Miro structure of our project</a>
             </div>
         </div>
     </div>
