@@ -95,6 +95,9 @@
             width: 800px;
             height: 500px;
             margin-bottom: 20%;
+            position: relative;
+            overflow-y: auto;
+            scroll-behavior: smooth;
         }
         
         .backBtn {
@@ -114,6 +117,15 @@
         .backBtn:hover {
             background-color: rgb(0, 0, 0);
             color: rgb(255, 255, 255);
+        }
+        
+        .aboutData {
+            width: 95%;
+            margin: 0 auto;
+            position: relative;
+            font-family: "Exo 2", sans-serif;
+            font-weight: 200;
+            font-style: normal;
         }
     </style>
 </head>
@@ -159,7 +171,28 @@
 
 
     <div class="aboutus">
+        <div class="aboutData">
+            <h2>Хто ми ?</h2>
+            <p>Ми команда молодих та талановитих розробників, які об'єднали свої знання та натхнення, щоб створити інноваційний вебсервіс.</p>
+            <p>Ми володіємо знаннями у сфері веб-розробки та програмування, завдяки чому змогли реалізувати цей проект на високому рівні.</p>
 
+            <h2>Що ми зробили ?</h2>
+            <p>Наша команда успішно реалізувала випускний проект під назвою "URL Shortener". Цей вебсервіс відкриває перед користувачами нові можливості в сфері перетворення довгих URL-адрес в короткі та легко запам'ятовувані посилання.</p>
+            <p>Ми працювали над цим проектом з великою увагою до деталей, щоб забезпечити його ефективність, зручність та надійність.</p>
+
+            <h2>Як це працює ?</h2>
+            <p>"URL Shortener" не лише створює скорочені версії будь-яких валідних URL-адрес, а й надає користувачам можливість редагувати ці посилання та відстежувати статистику переходів за ними.</p>
+            <p>Цей сервіс дозволяє ефективно управляти URL-адресами, що сприяє покращенню користувальницького досвіду та оптимізації веб-процесів.</p>
+            <h2>Використані технології</h2>
+            <ul>
+                <li><strong>Backend:</strong> Spring Boot, Spring Data, PostgreSQL, JWT (JSON Web Tokens), Flyway</li>
+                <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+                <li><strong>Testing:</strong> JUnit 5, Mockito</li>
+                <li><strong>CI/CD:</strong> </li>
+                <li><strong>Documentation:</strong> OpenAPI 3.0</li>
+                <li><strong>Containerization:</strong> Docker, docker-compose</li>
+            </ul>
+        </div>
     </div>
 </body>
 
