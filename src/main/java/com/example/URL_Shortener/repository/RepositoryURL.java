@@ -20,11 +20,15 @@ public interface RepositoryURL extends JpaRepository<EntityURL, Long> {
     @Query(nativeQuery = true, value = "SELECT * FROM urls WHERE finishDate >= :today")
     List<EntityURL> activeURL(@Param("today") LocalDate today);
 
-//    @Query(nativeQuery = true, value = "DELETE FROM urls WHERE shortURL = :shortURL")
-//    void deleteURL(@Param("shortURL") String shortURL);
-
-    @Query(nativeQuery = true, value = "DELETE FROM urls WHERE shortURL LIKE %:shortURL%")
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "DELETE FROM urls WHERE shortURL = :shortURL")
     void deleteURL(@Param("shortURL") String shortURL);
+
+//    @Transactional
+//    @Modifying
+//    @Query(nativeQuery = true, value = "DELETE FROM urls WHERE shortURL LIKE %:shortURL%")
+//    void deleteURL(@Param("shortURL") String shortURL);
 
 
     @Modifying
