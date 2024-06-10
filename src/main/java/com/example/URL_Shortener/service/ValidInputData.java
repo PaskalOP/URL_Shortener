@@ -26,8 +26,16 @@ public class ValidInputData {
      * @param shortUrl екземпляр короткого посилання, який потрібно перевірити
      */
     public boolean validShortUrl(String shortUrl) {
+       EntityURL entityURL = new EntityURL();
+        try{
+            entityURL =urlService.findByShortURL(shortUrl);
+
+        }catch (InvalidUrlException e){
+            entityURL =null;
+        }
+
         if((urlValidator.isValidShortUrl(shortUrl))
-                && (urlService.findByShortURL(shortUrl) ==null)) return true;
+                && (entityURL ==null)) return true;
         else throw new InvalidUrlException("Short URL is not valid", shortUrl);
     }
 

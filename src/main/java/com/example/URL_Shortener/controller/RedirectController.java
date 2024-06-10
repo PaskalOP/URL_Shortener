@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @ResponseBody
-@RequestMapping("/shorter")
 public class RedirectController {
 
     @Autowired private URLServiceImpl service;
