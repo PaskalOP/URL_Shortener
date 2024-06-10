@@ -5,9 +5,11 @@ import com.example.URL_Shortener.responseDTO.NewShortURL;
 import com.example.URL_Shortener.responseDTO.ResponseURLStatDTO;
 import com.example.URL_Shortener.responseDTO.ResponseURLStatDTOForMVC;
 import com.example.URL_Shortener.service.CreatorShortURL;
+import com.example.URL_Shortener.service.UrlValidator;
+import com.example.URL_Shortener.service.ValidInputData;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -17,8 +19,9 @@ import java.util.stream.Collectors;
 public class Mapper {
     private final CreatorShortURL creatorShortURL = new CreatorShortURL();
 
+    private UrlValidator urlValidator;
 
-    public EntityURL mapFromURLToEntity(String originURL){
+    public EntityURL mapFromURLToEntity(String originURL) {
         if (originURL == null) {
             throw new IllegalArgumentException("Origin URL cannot be null");
         }
@@ -49,7 +52,6 @@ public class Mapper {
         newShortURL.setFinishingDate(entityURL.getFinishDate());
 
 
-
         return newShortURL;
     }
 
@@ -69,7 +71,7 @@ public class Mapper {
     }
 
 
-    public EntityURL mapFromNewShortURLToEntity(NewShortURL newShortURL,EntityURL entityURL){
+    public EntityURL mapFromNewShortURLToEntity(NewShortURL newShortURL, EntityURL entityURL) {
         if (newShortURL == null) {
             throw new IllegalArgumentException("NewShortURL cannot be null");
         }
@@ -85,7 +87,6 @@ public class Mapper {
     }
 
 
-
     public List<ResponseURLStatDTOForMVC> mapFromListEntityToListResponseURLStatDTOForMVC(List<EntityURL> entityURLList) {
         return entityURLList.stream()
                 .map(this::mapEntityURLToResponseURLStatDTOForMVC)
@@ -99,8 +100,21 @@ public class Mapper {
         dtoForMVC.setCountUse(entityURL.getCountUse());
         return dtoForMVC;
     }
-    public EntityURL mapFromStringToEnyity(String jsonData, EntityURL entityForEdit){
-        return entityForEdit;
-    }
 
+    public EntityURL mapFromStringToEntity(String jsonData, EntityURL entityForEdit) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            EntityURL tempEntity = objectMapper.readValue(jsonData, EntityURL.class);
+
+            ValidInputData updater = new ValidInputData(urlValidator);
+            updater.updateShortUrl(entityForEdit, tempEntity);
+            updater.updateCountUse(entityForEdit, tempEntity);
+            updater.updateCreatingDate(entityForEdit, tempEntity);
+            updater.updateFinishDate(entityForEdit, tempEntity);
+
+            return entityForEdit;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to map JSON to entity: " + e.getMessage(), e);
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.URL_Shortener;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import com.example.URL_Shortener.controller.URLController;
@@ -11,8 +12,13 @@ import com.example.URL_Shortener.service.URLServiceImpl;
 import com.example.URL_Shortener.service.UrlValidator;
 
 import com.example.URL_Shortener.entity.EntityURL;
+import com.example.URL_Shortener.service.ValidInputData;
 import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -23,10 +29,20 @@ import java.util.Objects;
 
 public class URLControllerTests {
 
+    @Mock
     private URLServiceImpl service = mock(URLServiceImpl.class);
+    @Mock
     private UrlValidator validator = mock(UrlValidator.class);
+    @Mock
     private Mapper mapper = mock(Mapper.class);
+    @Mock
     private URLController controller = new URLController(mapper, service, validator);
+
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        controller = new URLController(mapper, service, validator);
+    }
 
     @Test
     public void testCreateShortUrl_Success() throws InvalidUrlException {
@@ -138,4 +154,21 @@ public class URLControllerTests {
         assert response.getBody().equals("Deleted");
     }
 
+
+    @Test
+    public void testMapFromStringToEntity_CountUseUpdated() {
+        // Мокові дані у форматі JSON
+        String jsonData = "{\"countUse\": 10}";
+
+        // Створення мокового об'єкта EntityURL для редагування
+        EntityURL entityForEdit = new EntityURL();
+        entityForEdit.setCountUse(5L);
+
+        // Виклик методу для тестування
+        Mapper mapper = new Mapper();
+        EntityURL resultEntity = mapper.mapFromStringToEntity(jsonData, entityForEdit);
+
+        // Перевірка
+        assertEquals(10, resultEntity.getCountUse());
+    }
 }

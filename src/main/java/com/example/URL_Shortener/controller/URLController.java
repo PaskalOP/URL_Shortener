@@ -42,7 +42,7 @@ public class URLController {
     @PostMapping("/edit")
     public HttpStatus editObject(@RequestBody String jsonString, @RequestParam String shortUrl) throws InvalidUrlException{
         EntityURL entityForEdit = service.findByShortURL(shortUrl);
-        EntityURL editedEntity = mapper.mapFromStringToEnyity(jsonString,entityForEdit);
+        EntityURL editedEntity = mapper.mapFromStringToEntity(jsonString,entityForEdit);
         service.updateShortURL(editedEntity);
         return HttpStatus.OK;
     }
