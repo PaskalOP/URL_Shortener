@@ -22,30 +22,14 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/shorter")
 public class RedirectController {
 
-    @Autowired
-    private URLServiceImpl service;
-    @Autowired
-    private UrlValidator validator;
-    @Autowired
-    private Config config;
-    @Autowired
-    private URLServiceImpl urlService;
+    @Autowired private URLServiceImpl service;
+    @Autowired private Config config;
 
-    /**
-     * Метод для перенаправлення користувача за коротким URL.
-     *
-     * @param shortURL String - короткий URL
-     * @return ResponseEntity<?> - відповідь з перенаправленням або помилкою
-     * @throws InvalidUrlException - виняток, якщо URL недійсний
-     */
-    @GetMapping("/{shortURL}")
-    public ResponseEntity<?> redirectByShortURL(@PathVariable String shortURL) throws InvalidUrlException {
-        String partUrl = "http://localhost:" + config.getServerPort() + "/shorter/" + shortURL;
-        urlService.increaseCount(partUrl);
-        validator.isValidShortUrl(partUrl);
-        String originURL = service.findByShortURL(partUrl).getOriginURL();
-        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY)
-                .header("Location", originURL)
-                .build();
+    @GetMapping(path = "/{shortURL}")
+    public ModelAndView redirectByShortURL(@PathVariable String shortURL) throws InvalidUrlException {
+        String partUrl = "http://localhost:" + config.serverPort + "/" + shortURL;
+        String originURL = service.isActiveURL(partUrl);
+        return new ModelAndView( "redirect:"+originURL);
+
     }
 }

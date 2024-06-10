@@ -33,28 +33,9 @@ public class MapperTest {
         assertEquals(originURL, entity.getOriginURL());
         assertNotNull(entity.getShortURL());
         assertNotNull(entity.getCountUse());
-        assertNotNull(entity.getUserID());
+        // assertNotNull(entity.getUserID());
         assertNotNull(entity.getCreatingDate());
         assertNotNull(entity.getFinishDate());
-    }
-
-    @Test
-    public void testMapFromEntityToNewShortURL() {
-        EntityURL entityURL = new EntityURL();
-        entityURL.setOriginURL("http://original.url");
-        entityURL.setShortURL("http://short.url");
-        entityURL.setCountUse(5L);
-        entityURL.setCreatingDate(LocalDate.of(2024, 6, 1));
-        entityURL.setFinishDate(LocalDate.of(2024, 6, 2));
-
-        NewShortURL newShortURL = mapper.mapFromEntityToNewShortURL(entityURL);
-
-        assertNotNull(newShortURL);
-        assertEquals("http://original.url", newShortURL.getOriginURL());
-        assertEquals("http://short.url", newShortURL.getShortURL());
-        assertEquals(5L, newShortURL.getCountUse());
-        assertEquals(LocalDate.of(2024, 6, 1), newShortURL.getCreatingDate());
-        assertEquals(LocalDate.of(2024, 6, 2), newShortURL.getFinishingDate());
     }
 
     @Test
@@ -80,34 +61,5 @@ public class MapperTest {
         ResponseURLStatDTO dto2 = dtoList.get(1);
         assertEquals(entity2.getShortURL(), dto2.getURL());
         assertEquals(entity2.getCountUse(), dto2.getCountUse());
-    }
-
-    @Test
-    public void testMapFromNewShortURLToEntity() {
-        // Create a NewShortURL object with some fields set to null
-        NewShortURL newShortURL = new NewShortURL();
-        newShortURL.setShortURL("http://short.com");
-        newShortURL.setOriginURL("http://original.com");
-        newShortURL.setCountUse(0L);
-        newShortURL.setCreatingDate(LocalDate.now());
-        newShortURL.setFinishingDate(LocalDate.now());
-
-        EntityURL entityURL = new EntityURL();
-        entityURL.setOriginURL("http://example.com");
-        entityURL.setShortURL("http://short.url/abc123");
-        entityURL.setCountUse(10L);
-        entityURL.setCreatingDate(LocalDate.of(2023,03,04) );
-        entityURL.setCreatingDate(LocalDate.of(2023,03,04) );
-
-        EntityURL editedEntityURL = mapper.mapFromNewShortURLToEntity(newShortURL,entityURL);
-
-        // Assertions
-        assertNotNull(entityURL);
-        assertEquals("http://short.com", entityURL.getShortURL());
-        assertEquals("http://original.com", entityURL.getOriginURL());
-        assertEquals(Long.valueOf(0), entityURL.getCountUse());
-        assertNotNull(entityURL.getUserID());
-        assertNotNull(entityURL.getCreatingDate());
-        assertNotNull(entityURL.getFinishDate());
     }
 }

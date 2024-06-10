@@ -1,68 +1,58 @@
 package com.example.URL_Shortener.service;
 
 import com.example.URL_Shortener.entity.EntityURL;
+import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * Клас для перевірки та оновлення вхідних даних.
  */
+@Component
 @RequiredArgsConstructor
 public class ValidInputData {
     private final UrlValidator urlValidator;
+    private final UserService userService;
+    private final URLServiceImpl urlService;
 
     /**
      * Оновлює короткий URL в екземплярі EntityURL згідно з вхідними даними.
-     * @param entityForEdit екземпляр EntityURL, який потрібно оновити
-     * @param tempEntity тимчасовий екземпляр EntityURL з новими даними
+     * @param shortUrl екземпляр короткого посилання, який потрібно перевірити
      */
-    public void updateShortUrl(EntityURL entityForEdit, EntityURL tempEntity) {
-        String shortUrl = tempEntity.getShortURL();
-        if (shortUrl != null) {
-            if (!urlValidator.isValidShortUrl(shortUrl)) {
-                throw new IllegalArgumentException("Short URL is not valid: " + shortUrl);
-            }
-            entityForEdit.setShortURL(shortUrl);
-        }
+    public boolean validShortUrl(String shortUrl) {
+        if((urlValidator.isValidShortUrl(shortUrl))
+                && (urlService.findByShortURL(shortUrl) ==null)) return true;
+        else throw new InvalidUrlException("Short URL is not valid", shortUrl);
     }
 
-    /**
-     * Оновлює кількість використань в екземплярі EntityURL згідно з вхідними даними.
-     * @param entityForEdit екземпляр EntityURL, який потрібно оновити
-     * @param tempEntity тимчасовий екземпляр EntityURL з новими даними
-     */
-    public void updateCountUse(EntityURL entityForEdit, EntityURL tempEntity) {
-        Long countUse = tempEntity.getCountUse();
-        if (countUse != null && countUse < 0) {
-            throw new IllegalArgumentException("Count use cannot be less than 0");
-        }
-        entityForEdit.setCountUse(countUse);
+    public boolean validOriginalUrl(String originalUrl) {
+       if(urlValidator.isValidUrl(originalUrl)) return true;
+       else throw new InvalidUrlException("Original URL is not valid", originalUrl);
     }
-
+    public  boolean validLogin(String login){
+        if(userService.findUserByLogin(login)!=null) return true;
+        else throw new InvalidUrlException("This user is not exist",login);
+    }
     /**
      * Оновлює дату створення в екземплярі EntityURL згідно з вхідними даними.
-     * @param entityForEdit екземпляр EntityURL, який потрібно оновити
-     * @param tempEntity тимчасовий екземпляр EntityURL з новими даними
      */
-    public void updateCreatingDate(EntityURL entityForEdit, EntityURL tempEntity) {
-        LocalDate creatingDate = tempEntity.getCreatingDate();
-        if (creatingDate != null && creatingDate.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("Creating date cannot be in the future");
+    public boolean validData(String date) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+            LocalDate dateFormat = LocalDate.parse(date, formatter);
+            if (dateFormat.isBefore(LocalDate.now())) {
+                throw new InvalidUrlException("Date can't be in the past",date);
+            }
+            return true;
+        } catch (DateTimeParseException e){
+            throw new InvalidUrlException("Invalid date format",date);
         }
-        entityForEdit.setCreatingDate(creatingDate);
     }
 
-    /**
-     * Оновлює дату закінчення в екземплярі EntityURL згідно з вхідними даними.
-     * @param entityForEdit екземпляр EntityURL, який потрібно оновити
-     * @param tempEntity тимчасовий екземпляр EntityURL з новими даними
-     */
-    public void updateFinishDate(EntityURL entityForEdit, EntityURL tempEntity) {
-        LocalDate finishDate = tempEntity.getFinishDate();
-        if (finishDate != null && finishDate.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Finish date cannot be in the past");
-        }
-        entityForEdit.setFinishDate(finishDate);
-    }
 }

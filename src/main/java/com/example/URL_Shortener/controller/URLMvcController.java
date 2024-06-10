@@ -35,13 +35,6 @@ public class URLMvcController {
         return modelAndView;
     }
 
-    @PostMapping("/editFull")
-    public ModelAndView editFullObject(@RequestBody NewShortURL data, @RequestParam String shortUrl) throws IllegalArgumentException {
-        EntityURL entityForEdit = service.findByShortURL(shortUrl);
-        EntityURL editedEntity = mapper.mapFromNewShortURLToEntity(data, entityForEdit);
-        service.updateShortURL(editedEntity);
-        return new ModelAndView("redirect:/api/V2/shorter/all");
-    }
 
     @GetMapping("/active")
     public ModelAndView activeUrls() {
