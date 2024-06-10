@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 public class Config {
+
     public String serverPort = "";
     public String jwtSecret;
     public Long jwtExpiration;

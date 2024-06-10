@@ -58,7 +58,7 @@ public class SecurityConfig {
     }
 
     /**
-     * Метод для створення біну AuthenticationManager.
+     * Метод для створення біну AuthenticationManager
      *
      * @param authConfig AuthenticationConfiguration - конфігурація аутентифікації
      * @return AuthenticationManager - менеджер аутентифікації

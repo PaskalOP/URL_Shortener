@@ -8,6 +8,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class JwtResponce {
+
         private String token;
         private UUID id;
         private String login;

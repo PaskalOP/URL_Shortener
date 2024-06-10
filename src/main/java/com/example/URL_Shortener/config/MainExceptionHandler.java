@@ -24,7 +24,7 @@ import java.util.Map;
 public class MainExceptionHandler {
 
     /**
-     * Обробляє виключення типу InvalidUrlException.
+     * Обробляє виключення типу InvalidUrlException
      * Коли виникає виключення InvalidUrlException, цей метод створює і заповнює
      * об'єкт ResponseInvalidDTO з повідомленням про помилку та невалідним URL, і
      * повертає його клієнту з HTTP статусом 400 (BAD_REQUEST).

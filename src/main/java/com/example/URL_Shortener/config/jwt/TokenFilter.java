@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * Фільтр для обробки та перевірки JWT токенів.
+ * Фільтр для обробки та перевірки JWT токенів
  * Виконується один раз за запит.
  */
 public class TokenFilter extends OncePerRequestFilter {

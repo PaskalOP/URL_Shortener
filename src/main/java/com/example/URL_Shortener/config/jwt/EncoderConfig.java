@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Клас для конфігурації енкодера паролів.
- * Включає налаштування для використання BCryptPasswordEncoder.
+ * Включає налаштування для використання BCryptPasswordEncoder
  */
 @Component
 public class EncoderConfig {

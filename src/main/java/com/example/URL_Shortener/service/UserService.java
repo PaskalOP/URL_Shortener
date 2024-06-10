@@ -50,7 +50,6 @@ public class UserService implements UserDetailsService {
         if (userRepository.existsByLogin(login)) {
             throw new UserAlreadyExistException(login);
         }
-
         User user = new User();
         user.setLogin(login);
         user.setPassword(encoder.encode(password));

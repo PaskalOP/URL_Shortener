@@ -17,7 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Контролер для автентифікації та реєстрації користувачів.
+ * Контролер для автентифікації та реєстрації користувачів
  */
 @Slf4j
 @Validated

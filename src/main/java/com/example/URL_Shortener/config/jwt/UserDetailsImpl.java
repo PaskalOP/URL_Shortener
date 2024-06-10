@@ -22,7 +22,7 @@ public class UserDetailsImpl implements UserDetails {
     private String password;
 
     /**
-     * Конструктор для створення UserDetailsImpl без пароля.
+     * Конструктор для створення UserDetailsImpl без пароля
      *
      * @param id UUID - ідентифікатор користувача
      * @param login String - логін користувача
