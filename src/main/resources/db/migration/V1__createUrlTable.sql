@@ -3,6 +3,6 @@ ID bigint primary key not null,
 originURL varchar not null,
 shortURL varchar not null,
 countUse bigint,
-UserID UUID,
+login varchar,
 creatingDate Date,
 finishDate DATE);

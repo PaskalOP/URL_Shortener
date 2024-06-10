@@ -52,11 +52,11 @@ public class URLServiceImplTestV2 {
 
     @Test
     public void testDeleteURL(){
-//        when(repositoryURL.deleteURL(anyString())).thenReturn(true);
-//
-//        boolean isDeleted = urlService.deleteURL("https://short.url");
-//        verify(repositoryURL, times(1)).deleteURL("https://short.url");
-//        Assertions.assertThat(isDeleted).isTrue();
+        when(repositoryURL.deleteURL(anyString())).thenReturn(true);
+
+        boolean isDeleted = urlService.deleteURL("https://short.url");
+        verify(repositoryURL, times(1)).deleteURL("https://short.url");
+        Assertions.assertThat(isDeleted).isTrue();
     }
 
     @Test

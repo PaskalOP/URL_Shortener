@@ -4,6 +4,7 @@ import com.example.URL_Shortener.entity.EntityURL;
 import com.example.URL_Shortener.service.URLServiceImpl;
 import com.example.URL_Shortener.service.UrlValidator;
 import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +21,12 @@ public class InitClass {
     private UrlValidator validator;
     @PostConstruct
     public void init () throws InvalidUrlException {
+        ObjectMapper n = new ObjectMapper();
         EntityURL entity = new EntityURL();
         entity.setOriginURL("bla-bla");
         entity.setShortURL("lam");
         entity.setCountUse(0L);
-        entity.setUserID(new UUID(10L,100L));
+        entity.setLogin("Olha");
         entity.setFinishDate(LocalDate.of(2024,06,01));
         entity.setCreatingDate(LocalDate.now());
        // service.addShortURL(entity);

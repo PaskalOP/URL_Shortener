@@ -1,6 +1,7 @@
 package com.example.URL_Shortener.repository;
 
 import com.example.URL_Shortener.entity.EntityURL;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,15 +20,25 @@ public interface RepositoryURL extends JpaRepository<EntityURL, Long> {
     @Query(nativeQuery = true, value = "SELECT * FROM urls WHERE finishDate >= :today")
     List<EntityURL> activeURL(@Param("today") LocalDate today);
 
-//    @Query(nativeQuery = true, value = "DELETE FROM urls WHERE shortURL = :shortURL")
-//    void deleteURL(@Param("shortURL") String shortURL);
-
-    @Query(nativeQuery = true, value = "DELETE FROM urls WHERE shortURL LIKE %:shortURL%")
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "DELETE FROM urls WHERE shortURL = :shortURL")
     void deleteURL(@Param("shortURL") String shortURL);
+
+//    @Transactional
+//    @Modifying
+//    @Query(nativeQuery = true, value = "DELETE FROM urls WHERE shortURL LIKE %:shortURL%")
+//    void deleteURL(@Param("shortURL") String shortURL);
 
 
     @Modifying
+    @Transactional
     @Query(nativeQuery = true, value = "UPDATE urls SET countUse = countUse + 1 WHERE shortURL = :shortURL")
     void increaseCount(@Param("shortURL") String shortURL);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "DELETE FROM urls WHERE shortURL LIKE %:shortURL%")
+    int deleteByShortURL(@Param("shortURL") String shortURL);
 
 }
