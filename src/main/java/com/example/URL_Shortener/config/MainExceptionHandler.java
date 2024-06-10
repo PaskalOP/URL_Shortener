@@ -3,6 +3,8 @@ package com.example.URL_Shortener.config;
 import com.example.URL_Shortener.responseDTO.ResponseInvalidDTO;
 import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
 import com.example.URL_Shortener.service.exceptions.NonActiveUrlException;
+import com.example.URL_Shortener.service.exceptions.UserAlreadyExistException;
+import com.example.URL_Shortener.service.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Головний обробник виключень для додатка.
+ * Головний обробник виключень для додатка
  * Цей клас визначає глобальні хендлери виключень для обробки специфічних виключень,
  * таких як InvalidUrlException, і повертає відповідні відповіді клієнту з відповідним HTTP статусом.
  */
@@ -22,7 +24,7 @@ import java.util.Map;
 public class MainExceptionHandler {
 
     /**
-     * Обробляє виключення типу InvalidUrlException.
+     * Обробляє виключення типу InvalidUrlException
      * Коли виникає виключення InvalidUrlException, цей метод створює і заповнює
      * об'єкт ResponseInvalidDTO з повідомленням про помилку та невалідним URL, і
      * повертає його клієнту з HTTP статусом 400 (BAD_REQUEST).
@@ -53,6 +55,22 @@ public class MainExceptionHandler {
         invalidDto.setInvalidURL(ex.getInvalidUrl());
         invalidDto.setMessage(Collections.singletonList(ex.getMessage()).toString());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(invalidDto);
+    }
+
+    /**
+     * Обробник винятків для користувацьких винятків UserAlreadyExistException і UserNotFoundException.
+     *
+     * @param ex Exception - об'єкт винятку
+     * @return ResponseEntity<Map<String, List<String>>> - відповідь з повідомленням про помилку та статусом BAD_REQUEST
+     */
+    @ExceptionHandler(value = {
+            UserAlreadyExistException.class,
+            UserNotFoundException.class
+    })
+    public ResponseEntity<Map<String, List<String>>> conflictException(Exception ex) {
+        Map<String, List<String>> map = new HashMap<>();
+        map.put("errors", Collections.singletonList(ex.getMessage()));
+        return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
     }
 
     /**
