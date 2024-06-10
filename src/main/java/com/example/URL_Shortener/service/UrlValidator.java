@@ -1,8 +1,6 @@
 package com.example.URL_Shortener.service;
 
-import com.example.URL_Shortener.config.Config;
 import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
