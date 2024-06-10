@@ -33,16 +33,6 @@ public class URLController {
                 .status(HttpStatus.OK)
                 .body(entityURL.getShortURL());
     }
-
-    @PostMapping("/editFull")
-    @SecurityRequirement(name = "Bearer Authentication")
-    public HttpStatus editFullObject (@RequestBody NewShortURL data, @RequestParam String shortUrl) throws IllegalArgumentException {
-        EntityURL entityForEdit = service.findByShortURL(shortUrl);
-        EntityURL editedEntity = mapper.mapFromNewShortURLToEntity(data,entityForEdit);
-        service.updateShortURL(editedEntity);
-        return HttpStatus.OK;
-    }
-
     @PostMapping("/edit")
     @SecurityRequirement(name = "Bearer Authentication")
     public HttpStatus editObject(@RequestBody String jsonString, @RequestParam String shortUrl) throws InvalidUrlException{

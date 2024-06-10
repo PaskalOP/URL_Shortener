@@ -4,22 +4,25 @@ import com.example.URL_Shortener.entity.EntityURL;
 import com.example.URL_Shortener.responseDTO.NewShortURL;
 import com.example.URL_Shortener.responseDTO.ResponseURLStatDTO;
 import com.example.URL_Shortener.responseDTO.ResponseURLStatDTOForMVC;
-import com.example.URL_Shortener.service.CreatorShortURL;
-import com.example.URL_Shortener.service.UrlValidator;
-import com.example.URL_Shortener.service.ValidInputData;
+import com.example.URL_Shortener.service.*;
+import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.Column;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class Mapper {
     private final CreatorShortURL creatorShortURL = new CreatorShortURL();
 
-    private UrlValidator urlValidator;
+    @Autowired private ValidInputData validInputData;
+
 
     public EntityURL mapFromURLToEntity(String originURL) {
         if (originURL == null) {
@@ -38,22 +41,21 @@ public class Mapper {
         return entity;
     }
 
-
-    public NewShortURL mapFromEntityToNewShortURL(EntityURL entityURL) {
-        if (entityURL == null) {
-            throw new IllegalArgumentException("EntityURL cannot be null");
-        }
-
-        NewShortURL newShortURL = new NewShortURL();
-        newShortURL.setOriginURL(entityURL.getOriginURL());
-        newShortURL.setShortURL(entityURL.getShortURL());
-        newShortURL.setCountUse(Objects.requireNonNullElse(entityURL.getCountUse(), 0L));
-        newShortURL.setCreatingDate(entityURL.getCreatingDate());
-        newShortURL.setFinishingDate(entityURL.getFinishDate());
-
-
-        return newShortURL;
-    }
+//    public NewShortURL mapFromEntityToNewShortURL(EntityURL entityURL) {
+//        if (entityURL == null) {
+//            throw new IllegalArgumentException("EntityURL cannot be null");
+//        }
+//
+//        NewShortURL newShortURL = new NewShortURL();
+//        newShortURL.setOriginURL(entityURL.getOriginURL());
+//        newShortURL.setShortURL(entityURL.getShortURL());
+//        newShortURL.setCountUse(Objects.requireNonNullElse(entityURL.getCountUse(), 0L));
+//        newShortURL.setCreatingDate(entityURL.getCreatingDate());
+//        newShortURL.setFinishingDate(entityURL.getFinishDate());
+//
+//
+//        return newShortURL;
+//    }
 
 
     public List<ResponseURLStatDTO> mapFromListEntityToListResponseURLStatDTO(List<EntityURL> entityURLList) {
@@ -71,20 +73,20 @@ public class Mapper {
     }
 
 
-    public EntityURL mapFromNewShortURLToEntity(NewShortURL newShortURL, EntityURL entityURL) {
-        if (newShortURL == null) {
-            throw new IllegalArgumentException("NewShortURL cannot be null");
-        }
-        entityURL.setShortURL(newShortURL.getShortURL());
-        entityURL.setOriginURL(newShortURL.getOriginURL());
-        entityURL.setCountUse(newShortURL.getCountUse());
-       // entityURL.setUserID(UUID.randomUUID()); - взяти з токена
-        entityURL.setCreatingDate(newShortURL.getCreatingDate());
-        entityURL.setFinishDate(newShortURL.getFinishingDate());
-
-        return entityURL;
-
-    }
+//    public EntityURL mapFromNewShortURLToEntity(NewShortURL newShortURL, EntityURL entityURL) {
+//        if (newShortURL == null) {
+//            throw new IllegalArgumentException("NewShortURL cannot be null");
+//        }
+//        entityURL.setShortURL(newShortURL.getShortURL());
+//        entityURL.setOriginURL(newShortURL.getOriginURL());
+//        entityURL.setCountUse(newShortURL.getCountUse());
+//       // entityURL.setUserID(UUID.randomUUID()); - взяти з токена
+//        entityURL.setCreatingDate(newShortURL.getCreatingDate());
+//        entityURL.setFinishDate(newShortURL.getFinishingDate());
+//
+//        return entityURL;
+//
+//    }
 
 
     public List<ResponseURLStatDTOForMVC> mapFromListEntityToListResponseURLStatDTOForMVC(List<EntityURL> entityURLList) {
@@ -102,19 +104,26 @@ public class Mapper {
     }
 
     public EntityURL mapFromStringToEntity(String jsonData, EntityURL entityForEdit) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String,String> fields = new HashMap<>();
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            EntityURL tempEntity = objectMapper.readValue(jsonData, EntityURL.class);
-
-            ValidInputData updater = new ValidInputData(urlValidator);
-            updater.updateShortUrl(entityForEdit, tempEntity);
-            updater.updateCountUse(entityForEdit, tempEntity);
-            updater.updateCreatingDate(entityForEdit, tempEntity);
-            updater.updateFinishDate(entityForEdit, tempEntity);
-
-            return entityForEdit;
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to map JSON to entity: " + e.getMessage(), e);
+            fields = objectMapper.readValue(jsonData, new TypeReference<>() {});
+        } catch (JsonProcessingException e) {
+            throw new InvalidUrlException("Incorrect json formate",jsonData);
         }
+        for (Map.Entry<String,String> item: fields.entrySet()) {
+            if(item.getKey().equals("originURL")
+                    && validInputData.validOriginalUrl(item.getValue())) entityForEdit.setOriginURL(item.getValue());
+            if(item.getKey().equals("shortURL")
+                    &&validInputData.validShortUrl(item.getValue())) entityForEdit.setShortURL(item.getValue());
+            if(item.getKey().equals("countUse")) throw new InvalidUrlException("You can't change this param.It is automatic one",item.getValue());
+            if(item.getKey().equals("login")
+                    &&(validInputData.validLogin(item.getValue()))) entityForEdit.setLogin(item.getValue());
+            if(item.getKey().equals("creatingDate")
+                    &&validInputData.validData(item.getValue())) entityForEdit.setCreatingDate(LocalDate.parse(item.getValue()));
+            if(item.getKey().equals("finishDate")
+                    &&validInputData.validData(item.getValue())) entityForEdit.setFinishDate(LocalDate.parse(item.getValue()));
+        }
+        return entityForEdit;
     }
 }
