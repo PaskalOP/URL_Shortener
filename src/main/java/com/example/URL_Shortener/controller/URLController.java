@@ -2,7 +2,6 @@ package com.example.URL_Shortener.controller;
 
 import com.example.URL_Shortener.entity.EntityURL;
 import com.example.URL_Shortener.mapper.Mapper;
-import com.example.URL_Shortener.responseDTO.NewShortURL;
 import com.example.URL_Shortener.responseDTO.ResponseURLStatDTO;
 import com.example.URL_Shortener.service.URLServiceImpl;
 import com.example.URL_Shortener.service.UrlValidator;

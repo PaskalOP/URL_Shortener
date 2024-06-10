@@ -1,16 +1,11 @@
 package com.example.URL_Shortener;
 
-import com.example.URL_Shortener.controller.URLController;
 import com.example.URL_Shortener.entity.EntityURL;
 import com.example.URL_Shortener.mapper.Mapper;
-import com.example.URL_Shortener.responseDTO.NewShortURL;
 import com.example.URL_Shortener.responseDTO.ResponseURLStatDTO;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

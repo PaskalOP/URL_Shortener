@@ -1,8 +1,8 @@
 package com.example.URL_Shortener.mapper;
 
 
+import com.example.URL_Shortener.config.jwt.UserDetailsImpl;
 import com.example.URL_Shortener.entity.EntityURL;
-import com.example.URL_Shortener.responseDTO.NewShortURL;
 import com.example.URL_Shortener.responseDTO.ResponseURLStatDTO;
 import com.example.URL_Shortener.responseDTO.ResponseURLStatDTOForMVC;
 import com.example.URL_Shortener.service.*;
@@ -11,6 +11,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -23,44 +25,16 @@ public class Mapper {
 
     @Autowired private ValidInputData validInputData;
 
-
-
     public EntityURL mapFromURLToEntity(String originURL) {
         if (originURL == null) {
             throw new IllegalArgumentException("Origin URL cannot be null");
         }
-//        SecurityContext context = SecurityContextHolder.getContext();
-//        UserDetailsImpl authentication = (UserDetailsImpl) context.getAuthentication().getPrincipal();
-//        String login =  authentication.getUsername();
+        SecurityContext context = SecurityContextHolder.getContext();
+        UserDetailsImpl authentication = (UserDetailsImpl) context.getAuthentication().getPrincipal();
+        String login =  authentication.getUsername();
 
-        NewShortURL newShortURL = creatorShortURL.createShortURL(originURL);
-
-        EntityURL entity = new EntityURL();
-        entity.setOriginURL(originURL);
-        entity.setShortURL(newShortURL.getShortURL());
-        entity.setCountUse(newShortURL.getCountUse());
-        //entity.setLogin(login );
-        entity.setCreatingDate(newShortURL.getCreatingDate());
-        entity.setFinishDate(newShortURL.getFinishingDate());
-        return entity;
+        return creatorShortURL.createShortURL(originURL,login);
     }
-
-//    public NewShortURL mapFromEntityToNewShortURL(EntityURL entityURL) {
-//        if (entityURL == null) {
-//            throw new IllegalArgumentException("EntityURL cannot be null");
-//        }
-//
-//        NewShortURL newShortURL = new NewShortURL();
-//        newShortURL.setOriginURL(entityURL.getOriginURL());
-//        newShortURL.setShortURL(entityURL.getShortURL());
-//        newShortURL.setCountUse(Objects.requireNonNullElse(entityURL.getCountUse(), 0L));
-//        newShortURL.setCreatingDate(entityURL.getCreatingDate());
-//        newShortURL.setFinishingDate(entityURL.getFinishDate());
-//
-//
-//        return newShortURL;
-//    }
-
 
     public List<ResponseURLStatDTO> mapFromListEntityToListResponseURLStatDTO(List<EntityURL> entityURLList) {
         return entityURLList.stream()

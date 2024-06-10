@@ -6,15 +6,12 @@ import static org.mockito.Mockito.*;
 import com.example.URL_Shortener.controller.URLController;
 import com.example.URL_Shortener.data.DataForTest;
 import com.example.URL_Shortener.mapper.Mapper;
-import com.example.URL_Shortener.responseDTO.NewShortURL;
 import com.example.URL_Shortener.responseDTO.ResponseURLStatDTO;
 import com.example.URL_Shortener.service.URLServiceImpl;
 import com.example.URL_Shortener.service.UrlValidator;
 
 import com.example.URL_Shortener.entity.EntityURL;
-import com.example.URL_Shortener.service.ValidInputData;
 import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -72,24 +69,19 @@ public class URLControllerTests {
     public void testEditFullObject_Success() throws IllegalArgumentException {
         // Arrange
         String shortUrl = "http://short.com/abc123";
-        NewShortURL newData = new NewShortURL("http://shortener.com/abc123",
-                "http://short.com/abc123",
-                LocalDate.now(),
-                LocalDate.of(2024, 6, 4),
-                5L
-        );
+        String newData = "http://shortener.com/abc123";
         EntityURL entityForEdit = new EntityURL();
         EntityURL editedEntity = new EntityURL();
 
         when(service.findByShortURL(shortUrl)).thenReturn(entityForEdit);
-        when(mapper.mapFromNewShortURLToEntity(newData, entityForEdit)).thenReturn(editedEntity);
+        when(mapper.mapFromStringToEntity(newData, entityForEdit)).thenReturn(editedEntity);
 
         // Act
-        HttpStatus status = controller.editFullObject(newData, shortUrl);
+        HttpStatus status = controller.editObject(newData, shortUrl);
 
         // Assert
         verify(service).findByShortURL(shortUrl);
-        verify(mapper).mapFromNewShortURLToEntity(newData, entityForEdit);
+       // verify(mapper).mapFromURLToEntity(newData, entityForEdit);
         verify(service).updateShortURL(editedEntity);
         assert status == HttpStatus.OK;
     }

@@ -2,14 +2,12 @@ package com.example.URL_Shortener.controller;
 
 import com.example.URL_Shortener.entity.EntityURL;
 import com.example.URL_Shortener.mapper.Mapper;
-import com.example.URL_Shortener.responseDTO.NewShortURL;
-import com.example.URL_Shortener.responseDTO.ResponseURLStatDTO;
 import com.example.URL_Shortener.responseDTO.ResponseURLStatDTOForMVC;
+import com.example.URL_Shortener.service.CreatorShortURL;
 import com.example.URL_Shortener.service.URLServiceImpl;
 import com.example.URL_Shortener.service.UrlValidator;
 import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,14 +20,14 @@ public class URLMvcController {
     private final Mapper mapper;
     private final URLServiceImpl service;
     private final UrlValidator validator;
+    private final CreatorShortURL creatorShortURL;
 
     @PostMapping("/create")
     public ModelAndView createShortUrl(@RequestParam String originalUrl) throws InvalidUrlException {
-//        validator.isValidUrl(originalUrl);
-
+       validator.isValidUrl(originalUrl);
 
         ModelAndView modelAndView = new ModelAndView("redirect:/api/V2/shorter/all");
-        EntityURL entityURL = mapper.mapFromURLToEntity(originalUrl);
+        EntityURL entityURL = creatorShortURL.createShortURL(originalUrl,"defoult");
         service.addShortURL(entityURL);
 //        modelAndView.setStatus(HttpStatus.OK);
         return modelAndView;
@@ -53,7 +51,13 @@ public class URLMvcController {
         modelAndView.addObject("urls", response);
         return modelAndView;
     }
-
+    @PostMapping("/editFull")
+    public ModelAndView editFullObject(@RequestBody String data, @RequestParam String shortUrl) throws IllegalArgumentException {
+        EntityURL entityForEdit = service.findByShortURL(shortUrl);
+        EntityURL editedEntity = mapper.mapFromStringToEntity(data, entityForEdit);
+        service.updateShortURL(editedEntity);
+        return new ModelAndView("redirect:/api/V2/shorter/all");
+    }
     @PostMapping("/delete")
     public ModelAndView deleteShortURL(@RequestParam String shortURL) {
         ModelAndView modelAndView = new ModelAndView("redirect:/api/V2/shorter/all");

@@ -24,7 +24,7 @@ public class RedirectController {
     @Autowired private URLServiceImpl service;
     @Autowired private Config config;
 
-    @GetMapping(path = "/{shortURL}")
+    @GetMapping("/{shortURL:[a-zA-Z0-9]{6,8}}")
     public ModelAndView redirectByShortURL(@PathVariable String shortURL) throws InvalidUrlException {
         String partUrl = "http://localhost:" + config.serverPort + "/" + shortURL;
         String originURL = service.isActiveURL(partUrl);

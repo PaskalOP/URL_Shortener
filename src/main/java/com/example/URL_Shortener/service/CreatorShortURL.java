@@ -1,7 +1,6 @@
 package com.example.URL_Shortener.service;
 
 import com.example.URL_Shortener.entity.EntityURL;
-import com.example.URL_Shortener.responseDTO.NewShortURL;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

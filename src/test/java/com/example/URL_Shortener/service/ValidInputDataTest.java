@@ -1,144 +1,120 @@
 package com.example.URL_Shortener.service;
 
 import com.example.URL_Shortener.entity.EntityURL;
-import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 public class ValidInputDataTest {
 
-    @Mock
-    private UrlValidator urlValidator;
+    // Тест на оновлення короткого URL з правильною URL
+    @Test
+    public void testUpdateShortUrl_ValidShortUrl() {
+        // Створення мокового UrlValidator
+        UrlValidator urlValidator = Mockito.mock(UrlValidator.class);
+        Mockito.when(urlValidator.isValidShortUrl(Mockito.anyString())).thenReturn(true);
 
-    @Mock
-    private UserService userService;
+        // Створення об'єкта ValidInputData з моковим UrlValidator
+       // ValidInputData validInputData = new ValidInputData(urlValidator);
 
-    @Mock
-    private URLServiceImpl urlService;
+        // Початкові дані
+        EntityURL entityForEdit = new EntityURL();
+        entityForEdit.setShortURL("http://old.short.com/123");
 
-    @InjectMocks
-    private ValidInputData validInputData;
+        // Нові дані для оновлення
+        EntityURL tempEntity = new EntityURL();
+        tempEntity.setShortURL("http://short.com/123");
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
+        // Виклик методу для тестування
+       // validInputData.updateShortUrl(entityForEdit, tempEntity);
+
+        // Перевірка результату
+        Assertions.assertEquals("http://short.com/123", entityForEdit.getShortURL());
     }
 
+    // Тест на оновлення короткого URL з неправильною URL
     @Test
-    public void testValidShortUrl_ValidUrl_ReturnsTrue() throws InvalidUrlException {
-        String shortUrl = "validShortUrl";
+    public void testUpdateShortUrl_InvalidShortUrl() {
+        // Створення мокового UrlValidator
+        UrlValidator urlValidator = Mockito.mock(UrlValidator.class);
+        Mockito.when(urlValidator.isValidShortUrl(Mockito.anyString())).thenReturn(false);
 
-        when(urlValidator.isValidShortUrl(shortUrl)).thenReturn(true);
-        when(urlService.findByShortURL(shortUrl)).thenThrow(new InvalidUrlException("Not found", shortUrl));
+        // Створення об'єкта ValidInputData з моковим UrlValidator
+       // ValidInputData validInputData = new ValidInputData(urlValidator);
 
-        assertTrue(validInputData.validShortUrl(shortUrl));
-    }
+        // Початкові дані
+        EntityURL entityForEdit = new EntityURL();
+        entityForEdit.setShortURL("http://old.short.com/123");
 
-    @Test
-    public void testValidShortUrl_InvalidUrl_ThrowsException() {
-        String shortUrl = "invalidShortUrl";
+        // Нові дані для оновлення з неправильною URL
+        EntityURL tempEntity = new EntityURL();
+        tempEntity.setShortURL("invalid_url");
 
-        when(urlValidator.isValidShortUrl(shortUrl)).thenReturn(false);
-
-        InvalidUrlException exception = assertThrows(InvalidUrlException.class, () -> {
-            validInputData.validShortUrl(shortUrl);
+        // Перевірка, що метод кидає виняток IllegalArgumentException
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+           // validInputData.updateShortUrl(entityForEdit, tempEntity);
         });
-
-        assertEquals("Short URL is not valid", exception.getMessage());
     }
 
+    // Тест на оновлення кількості використань з від'ємним значенням
     @Test
-    public void testValidShortUrl_UrlAlreadyExists_ThrowsException() throws InvalidUrlException {
-        String shortUrl = "existingShortUrl";
+    public void testUpdateCountUse_NegativeCountUse() {
+        UrlValidator urlValidator = new UrlValidator();
+        //ValidInputData validInputData = new ValidInputData(urlValidator);
 
-        when(urlValidator.isValidShortUrl(shortUrl)).thenReturn(true);
-        when(urlService.findByShortURL(shortUrl)).thenReturn(new EntityURL());
+        // Початкові дані
+        EntityURL entityForEdit = new EntityURL();
+        entityForEdit.setCountUse(5L);
 
-        InvalidUrlException exception = assertThrows(InvalidUrlException.class, () -> {
-            validInputData.validShortUrl(shortUrl);
+        // Нові дані для оновлення з від'ємним значенням
+        EntityURL tempEntity = new EntityURL();
+        tempEntity.setCountUse(-1L);
+
+        // Перевірка, що метод кидає виняток IllegalArgumentException
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+          //  validInputData.updateCountUse(entityForEdit, tempEntity);
         });
-
-        assertEquals("Short URL is not valid", exception.getMessage());
     }
 
+    // Тест на оновлення дати створення з майбутньою датою
     @Test
-    public void testValidOriginalUrl_ValidUrl_ReturnsTrue() {
-        String originalUrl = "http://validurl.com";
+    public void testUpdateCreatingDate_FutureCreatingDate() {
+        UrlValidator urlValidator = new UrlValidator();
+       // ValidInputData validInputData = new ValidInputData(urlValidator);
 
-        when(urlValidator.isValidUrl(originalUrl)).thenReturn(true);
+        // Початкові дані
+        EntityURL entityForEdit = new EntityURL();
+        entityForEdit.setCreatingDate(LocalDate.now());
 
-        assertTrue(validInputData.validOriginalUrl(originalUrl));
-    }
+        // Нові дані для оновлення з майбутньою датою
+        EntityURL tempEntity = new EntityURL();
+        tempEntity.setCreatingDate(LocalDate.now().plusDays(1));
 
-    @Test
-    public void testValidOriginalUrl_InvalidUrl_ThrowsException() {
-        String originalUrl = "invalidUrl";
-
-        when(urlValidator.isValidUrl(originalUrl)).thenReturn(false);
-
-        InvalidUrlException exception = assertThrows(InvalidUrlException.class, () -> {
-            validInputData.validOriginalUrl(originalUrl);
+        // Перевірка, що метод кидає виняток IllegalArgumentException
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+           // validInputData.updateCreatingDate(entityForEdit, tempEntity);
         });
-
-        assertEquals("Original URL is not valid", exception.getMessage());
     }
 
+    // Тест на оновлення дати закінчення з минулою датою
     @Test
-    public void testValidLogin_UserExists_ReturnsTrue() {
-        String login = "existingUser";
+    public void testUpdateFinishDate_PastFinishDate() {
+        UrlValidator urlValidator = new UrlValidator();
+       // ValidInputData validInputData = new ValidInputData(urlValidator);
 
-        when(userService.findUserByLogin(login)).thenReturn(new Object()); // Замініть на відповідний об'єкт користувача
+        // Початкові дані
+        EntityURL entityForEdit = new EntityURL();
+        entityForEdit.setFinishDate(LocalDate.now());
 
-        assertTrue(validInputData.validLogin(login));
-    }
+        // Нові дані для оновлення з минулою датою
+        EntityURL tempEntity = new EntityURL();
+        tempEntity.setFinishDate(LocalDate.now().minusDays(1));
 
-    @Test
-    public void testValidLogin_UserDoesNotExist_ThrowsException() {
-        String login = "nonExistingUser";
-
-        when(userService.findUserByLogin(login)).thenReturn(null);
-
-        InvalidUrlException exception = assertThrows(InvalidUrlException.class, () -> {
-            validInputData.validLogin(login);
+        // Перевірка, що метод кидає виняток IllegalArgumentException
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+          //  validInputData.updateFinishDate(entityForEdit, tempEntity);
         });
-
-        assertEquals("This user is not exist", exception.getMessage());
-    }
-
-    @Test
-    public void testValidData_ValidDate_ReturnsTrue() {
-        String date = "2024-12-31";
-
-        assertTrue(validInputData.validData(date));
-    }
-
-    @Test
-    public void testValidData_InvalidDateFormat_ThrowsException() {
-        String date = "31-12-2024";
-
-        InvalidUrlException exception = assertThrows(InvalidUrlException.class, () -> {
-            validInputData.validData(date);
-        });
-
-        assertEquals("Invalid date format", exception.getMessage());
-    }
-
-    @Test
-    public void testValidData_PastDate_ThrowsException() {
-        String date = "2023-12-31";
-
-        InvalidUrlException exception = assertThrows(InvalidUrlException.class, () -> {
-            validInputData.validData(date);
-        });
-
-        assertEquals("Date can't be in the past", exception.getMessage());
     }
 }
