@@ -19,7 +19,7 @@ import java.io.IOException;
 public class AuthHandler implements AuthenticationEntryPoint {
 
     /**
-     * Метод commence викликається при невдалій автентифікації.
+     * Метод commence викликається при невдалій автентифікації
      * Логує повідомлення про помилку і відправляє відповідь з кодом 401 (Неавторизовано).
      *
      * @param request HttpServletRequest - поточний запит

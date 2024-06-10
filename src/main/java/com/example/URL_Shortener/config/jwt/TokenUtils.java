@@ -90,7 +90,7 @@ public class TokenUtils {
     }
 
     /**
-     * Метод для валідації JWT токена.
+     * Метод для валідації JWT токена
      *
      * @param authToken String - JWT токен
      * @return boolean - true, якщо токен валідний, інакше false

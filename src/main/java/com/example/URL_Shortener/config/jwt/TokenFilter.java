@@ -34,7 +34,7 @@ public class TokenFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(TokenFilter.class);
 
     /**
-     * Метод для фільтрації запитів та перевірки JWT токенів.
+     * Метод для фільтрації запитів та перевірки JWT токенів
      *
      * @param request HttpServletRequest - поточний HTTP запит
      * @param response HttpServletResponse - поточна HTTP відповідь

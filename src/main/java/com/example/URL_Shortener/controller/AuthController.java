@@ -33,7 +33,7 @@ public class AuthController {
     private TokenUtils jwtUtils;
 
     /**
-     * Метод для аутентифікації користувача.
+     * Метод для аутентифікації користувача
      *
      * @param loginRequest LoginRequest - запит на вхід
      * @return ResponseEntity<JwtResponce> - відповідь з JWT токеном

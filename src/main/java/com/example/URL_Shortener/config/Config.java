@@ -15,7 +15,8 @@ public class Config {
 
     public Config(@Value("${server.port}") String serverPort,
                   @Value("${JWT_SECRET}") String jwtSecret,
-                  @Value("${JWT_EXPIRATION}") Long jwtExpiration){
+                  @Value("${JWT_EXPIRATION}") Long jwtExpiration)
+    {
         this.serverPort = serverPort;
         this.jwtSecret = jwtSecret;
         this.jwtExpiration = jwtExpiration;

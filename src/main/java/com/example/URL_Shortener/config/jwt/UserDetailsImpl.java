@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * Клас, що реалізує інтерфейс UserDetails для роботи з даними користувача в контексті Spring Security.
+ * Клас, що реалізує інтерфейс UserDetails для роботи з даними користувача в контексті Spring Security
  */
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;

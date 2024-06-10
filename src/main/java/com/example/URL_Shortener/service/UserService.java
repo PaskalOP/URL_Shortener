@@ -51,7 +51,9 @@ public class UserService implements UserDetailsService {
             throw new UserAlreadyExistException(login);
         }
 
-        User user = new User(login, encoder.encode(password));
+        User user = new User();
+        user.setLogin(login);
+        user.setPassword(encoder.encode(password));
         userRepository.save(user);
     }
 }

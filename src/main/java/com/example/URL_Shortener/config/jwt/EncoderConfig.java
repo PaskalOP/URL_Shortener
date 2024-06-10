@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class EncoderConfig {
 
     /**
-     * Метод, який повертає бін PasswordEncoder.
+     * Метод, який повертає бін PasswordEncoder
      * Використовується для шифрування паролів за допомогою алгоритму BCrypt.
      *
      * @return PasswordEncoder - інтерфейс для шифрування паролів

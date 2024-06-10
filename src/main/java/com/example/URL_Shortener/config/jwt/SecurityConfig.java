@@ -70,7 +70,7 @@ public class SecurityConfig {
     }
 
     /**
-     * Метод для налаштування ланцюжка фільтрів безпеки.
+     * Метод для налаштування ланцюжка фільтрів безпеки
      *
      * @param http HttpSecurity - об'єкт для налаштування безпеки HTTP
      * @return SecurityFilterChain - ланцюжок фільтрів безпеки
