@@ -7,6 +7,7 @@ import com.example.URL_Shortener.responseDTO.ResponseURLStatDTO;
 import com.example.URL_Shortener.service.URLServiceImpl;
 import com.example.URL_Shortener.service.UrlValidator;
 import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ public class URLController {
     private final UrlValidator validator;
 
     @GetMapping("/create")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<String> createShortUrl(@RequestParam String originalUrl) throws InvalidUrlException{
         validator.isValidUrl(originalUrl);
         EntityURL entityURL = mapper.mapFromURLToEntity(originalUrl);
@@ -32,6 +34,7 @@ public class URLController {
                 .body(entityURL.getShortURL());
     }
     @PostMapping("/edit")
+    @SecurityRequirement(name = "Bearer Authentication")
     public HttpStatus editObject(@RequestBody String jsonString, @RequestParam String shortUrl) throws InvalidUrlException{
         EntityURL entityForEdit = service.findByShortURL(shortUrl);
         EntityURL editedEntity = mapper.mapFromStringToEntity(jsonString,entityForEdit);
@@ -40,6 +43,7 @@ public class URLController {
     }
 
     @GetMapping("/active")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<List<ResponseURLStatDTO>> activeUrls(){
         List<EntityURL> urls = service.activeURL();
         List<ResponseURLStatDTO> response = mapper.mapFromListEntityToListResponseURLStatDTO(urls);
@@ -47,6 +51,7 @@ public class URLController {
     }
 
     @GetMapping("/all")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<List<ResponseURLStatDTO>> allUrls(){
         List<EntityURL> urls = service.getAllURLs();
         List<ResponseURLStatDTO> response = mapper.mapFromListEntityToListResponseURLStatDTO(urls);
@@ -54,10 +59,9 @@ public class URLController {
     }
 
     @DeleteMapping("/delete")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<String>  deleteUrl(@RequestParam String shortURL) throws IllegalArgumentException  {
         service.deleteURL(shortURL);
         return  ResponseEntity.status(HttpStatus.OK).body("Deleted");
     }
-
-
 }

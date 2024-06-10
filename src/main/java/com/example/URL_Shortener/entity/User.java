@@ -1,9 +1,6 @@
 package com.example.URL_Shortener.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,13 +17,16 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @Builder.Default
-    private UUID id = UUID.randomUUID();
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(updatable = false, nullable = false)
+    private UUID id;
 
     @Column(unique = true, nullable = false)
     private String login;
     private String password;
 
-
-
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
 }
