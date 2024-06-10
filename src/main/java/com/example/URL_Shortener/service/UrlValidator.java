@@ -1,11 +1,17 @@
 package com.example.URL_Shortener.service;
 
+import com.example.URL_Shortener.config.Config;
 import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.regex.Pattern;
 
 /**
@@ -13,8 +19,8 @@ import java.util.regex.Pattern;
  */
 @Component
 public class UrlValidator {
-    private static final String URL_PATTERN = "^(http|https)://.*$";
-    private static final String SHORT_URL_PATTERN = "^http://localhost:9999/shorter/[a-zA-Z0-9]{6,8}$";
+    private final String URL_PATTERN = "^(http|https)://.*$";
+    private final Pattern SHORT_URL_PATTERN = Pattern.compile("/[a-zA-Z0-9]{6,8}($|/.*)");
 
     /**
      * Перевіряє, чи є URL-адреса валідною.
@@ -24,7 +30,7 @@ public class UrlValidator {
      * @throws InvalidUrlException викидається, якщо URL-адреса є невалідною.
      */
     public boolean isValidUrl(String urlString) throws InvalidUrlException {
-        if(!Pattern.compile(URL_PATTERN).matcher(urlString).matches())
+        if (!Pattern.compile(URL_PATTERN).matcher(urlString).matches())
             throw new InvalidUrlException("URL must start with 'http://' or 'https://'", urlString);
         return isValidConnection(urlString);
     }
@@ -33,23 +39,24 @@ public class UrlValidator {
      * Перевіряє, чи можна підключитися до URL-адреси.
      *
      * @param urlString URL-адреса для перевірки.
-     * @return true, якщо можна підключитися до URL-адреси та статус-код є валідним
+     * @return true, якщо можна підключитися до URL-адреси та статус-код є валідним.
      * @throws InvalidUrlException викидається, якщо не можна підключитися до URL-адреси або отриманий недійсний статус-код.
      */
     private boolean isValidConnection(String urlString) throws InvalidUrlException {
-        HttpURLConnection connection = null;
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(urlString))
+                .build();
         try {
-            URL url = new URL(urlString);
-            connection = (HttpURLConnection) url.openConnection();
-            int statusCode = connection.getResponseCode();
-            if(isValidStatusCode(statusCode))
+            HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
+            int statusCode = response.statusCode();
+            if (isValidStatusCode(statusCode)) {
                 return true;
-            else throw new InvalidUrlException("Failed to connect to URL. Status code: " + statusCode , urlString);
-        } catch (IOException e) {
+            } else {
+                throw new InvalidUrlException("Failed to connect to URL. Status code: " + statusCode, urlString);
+            }
+        } catch (IOException | InterruptedException e) {
             throw new InvalidUrlException("Failed to connect to URL", urlString);
-        } finally {
-            if (connection != null)
-                connection.disconnect();
         }
     }
 
@@ -61,10 +68,12 @@ public class UrlValidator {
      * @throws InvalidUrlException викидається, якщо короткий URL є невалідним.
      */
     public boolean isValidShortUrl(String shortUrlString) throws InvalidUrlException {
-        if(!Pattern.compile(SHORT_URL_PATTERN).matcher(shortUrlString).matches())
-            throw new InvalidUrlException("Short URL must start with 'http://localhost:9999/shorter/' and contain 6-8 characters after it", shortUrlString);
+        if (!SHORT_URL_PATTERN.matcher(shortUrlString).find()) {
+            throw new InvalidUrlException("Short URL must be 6-8 characters", shortUrlString);
+        }
         return true;
     }
+
     /**
      * Перевіряє, чи є статус-код валідним.
      *

@@ -28,7 +28,7 @@ public class CreatorShortURL {
         String shortURL = generateShortURL();
 
         // Формуємо повний короткий URL
-        String fullShortURL = "http://localhost:9999/shorter/" + shortURL;
+        String fullShortURL = "http://localhost:9999/" + shortURL;
 
 
         // Повертаємо новий об'єкт NewShortURL
