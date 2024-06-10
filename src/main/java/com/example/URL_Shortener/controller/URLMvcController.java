@@ -35,13 +35,6 @@ public class URLMvcController {
         return modelAndView;
     }
 
-    @PostMapping("/editFull")
-    public ModelAndView editFullObject(@RequestBody NewShortURL data, @RequestParam String shortUrl) throws IllegalArgumentException {
-        EntityURL entityForEdit = service.findByShortURL(shortUrl);
-        EntityURL editedEntity = mapper.mapFromNewShortURLToEntity(data, entityForEdit);
-        service.updateShortURL(editedEntity);
-        return new ModelAndView("redirect:/api/V2/shorter/all");
-    }
 
     @GetMapping("/active")
     public ModelAndView activeUrls() {
@@ -62,8 +55,23 @@ public class URLMvcController {
     }
 
     @PostMapping("/delete")
-    public ModelAndView deleteUrl(@RequestParam String shortURL) throws IllegalArgumentException {
-        service.deleteURL(shortURL);
-        return new ModelAndView("redirect:/api/V2/shorter/all");
+    public ModelAndView deleteShortURL(@RequestParam String shortURL) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/api/V2/shorter/all");
+        try {
+            System.out.println("Attempting to delete shortURL: " + shortURL);
+            boolean isDeleted = service.deleteByShortURL(shortURL);
+            if (isDeleted) {
+                System.out.println("Successfully deleted shortURL: " + shortURL);
+                return modelAndView;
+            } else {
+                System.out.println("No URL found for the given shortURL: " + shortURL);
+                modelAndView.addObject("errors", List.of("No URL found for the given short URL."));
+                return modelAndView;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            modelAndView.addObject("errors", List.of("Error deleting URL: " + e.getMessage()));
+            return modelAndView;
+        }
     }
 }

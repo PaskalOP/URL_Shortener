@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About us</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
+        html {
+            background-image: linear-gradient(to right bottom, #92e9ae, #4ee1c6, #00d6e1, #00c7f6, #00b4ff, #6ba7fd, #9c99f0, #bf8ada, #d189c2, #d78cae, #d593a0, #cc9b99);
+            background-attachment: fixed;
+        }
+        
+        body {
+            width: 70%;
+            margin: 0 auto;
+        }
+        
+        .grid-container {
+            padding-top: 50px;
+            margin: 0 auto;
+            /* width: 60%; */
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, auto);
+            gap: 10px;
+            text-align: center;
+        }
+        
+        .bd1,
+        .bd2,
+        .bd3,
+        .bd4,
+        .bd5,
+        .bd6,
+        .bd7,
+        .bd8 {
+            border: 1px solid rgb(0, 0, 0);
+            width: 200px;
+            height: 250px;
+            /* Увеличим высоту для размещения всех элементов */
+            margin: 0 auto;
+            margin-top: 20px;
+            border-radius: 20px;
+            font-family: "Exo 2", sans-serif;
+            font-weight: bold;
+            font-style: normal;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f9f9f93f;
+            /* Задний фон блока */
+            padding: 10px;
+        }
+        
+        .bd1:hover,
+        .bd2:hover,
+        .bd3:hover,
+        .bd4:hover,
+        .bd5:hover,
+        .bd6:hover,
+        .bd7:hover,
+        .bd8:hover {
+            background-color: rgba(255, 255, 255, 0.658);
+            color: rgb(42, 61, 230);
+        }
+        
+        .avatar {
+            border: 1px solid rgba(100, 56, 56, 0.603);
+            width: 140px;
+            /* Уменьшим размер аватарки для лучшего размещения */
+            height: 140px;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            filter: grayscale(1);
+            background: center;
+        }
+        
+        .name {
+            margin-top: 10px;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .aboutus {
+            border-radius: 26px;
+            position: relative;
+            top: 100px;
+            margin: 0 auto;
+            background-color: #ffffff4f;
+            border: 1px solid rgb(0, 0, 0);
+            width: 800px;
+            height: 500px;
+            margin-bottom: 20%;
+            position: relative;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+        
+        .backBtn {
+            position: absolute;
+            margin-top: 20px;
+            margin-left: -100px;
+            border: 1px solid rgb(0, 0, 0);
+            color: rgb(0, 0, 0);
+            width: 100px;
+            height: 30px;
+            text-align: center;
+            padding-top: 15px;
+            border-radius: 50px;
+            text-decoration: none;
+        }
+        
+        .backBtn:hover {
+            background-color: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
+        }
+        
+        .aboutData {
+            width: 95%;
+            margin: 0 auto;
+            position: relative;
+            font-family: "Exo 2", sans-serif;
+            font-weight: 200;
+            font-style: normal;
+        }
+    </style>
+</head>
+
+<body>
+    <a class="backBtn" th:href="@{all}"> MAIN </a>
+
+    <div class="grid-container">
+        <div class="bd1">
+            <img class="avatar" th:src="@{/pictures/anton.png}" />
+            <p class="name">ANTON BARASH</p>
+        </div>
+        <div class="bd2">
+            <img class="avatar" th:src="@{/pictures/olga.jpg}" />
+            <p class="name">OLHA PASKAL</p>
+        </div>
+        <div class="bd3">
+            <img class="avatar" th:src="@{/pictures/yurii.jpg}" />
+            <p class="name">YURII DYMA</p>
+        </div>
+        <div class="bd4">
+            <img class="avatar" th:src="@{/pictures/artur.jpg}" />
+            <p class="name">ARTUR ABRAMIAN</p>
+        </div>
+        <div class="bd5">
+            <img class="avatar" th:src="@{/pictures/volodymyr.png}" />
+            <p class="name">VOLODYMYR VESELOVSKYI</p>
+        </div>
+        <div class="bd6">
+            <img class="avatar" th:src="@{/pictures/rost.jpg}" />
+            <p class="name">ROSTYSLAV VOLOSHCHAK</p>
+        </div>
+        <div class="bd7">
+            <img class="avatar" th:src="@{/pictures/ivan.png}" />
+            <p class="name">IVAN KHLAN</p>
+        </div>
+
+        <div class="bd8">
+            <img class="avatar" th:src="@{/pictures/bogdan.png}" />
+            <p class="name">BOHDAN BODNAR</p>
+        </div>
+    </div>
+
+
+    <div class="aboutus">
+        <div class="aboutData">
+            <h2>Хто ми ?</h2>
+            <p>Ми команда молодих та талановитих розробників, які об'єднали свої знання та натхнення, щоб створити інноваційний вебсервіс.</p>
+            <p>Ми володіємо знаннями у сфері веб-розробки та програмування, завдяки чому змогли реалізувати цей проект на високому рівні.</p>
+
+            <h2>Що ми зробили ?</h2>
+            <p>Наша команда успішно реалізувала випускний проект під назвою "URL Shortener". Цей вебсервіс відкриває перед користувачами нові можливості в сфері перетворення довгих URL-адрес в короткі та легко запам'ятовувані посилання.</p>
+            <p>Ми працювали над цим проектом з великою увагою до деталей, щоб забезпечити його ефективність, зручність та надійність.</p>
+
+            <h2>Як це працює ?</h2>
+            <p>"URL Shortener" не лише створює скорочені версії будь-яких валідних URL-адрес, а й надає користувачам можливість редагувати ці посилання та відстежувати статистику переходів за ними.</p>
+            <p>Цей сервіс дозволяє ефективно управляти URL-адресами, що сприяє покращенню користувальницького досвіду та оптимізації веб-процесів.</p>
+            <h2>Використані технології</h2>
+            <ul>
+                <li><strong>Backend:</strong> Spring Boot, Spring Data, PostgreSQL, JWT (JSON Web Tokens), Flyway</li>
+                <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+                <li><strong>Testing:</strong> JUnit 5, Mockito</li>
+                <li><strong>CI/CD:</strong> </li>
+                <li><strong>Documentation:</strong> OpenAPI 3.0</li>
+                <li><strong>Containerization:</strong> Docker, docker-compose</li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>

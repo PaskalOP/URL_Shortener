@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Spring Security Example </title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
+        html {
+            background-image: linear-gradient(to right bottom, #92e9ae, #4ee1c6, #00d6e1, #00c7f6, #00b4ff, #6ba7fd, #9c99f0, #bf8ada, #d189c2, #d78cae, #d593a0, #cc9b99);
+            background-attachment: fixed;
+        }
+        
+        body {
+            /* background-color: #9c99f0; */
+            text-align: center;
+            margin-top: 400px;
+        }
+        
+        .name {
+            margin-top: 10px;
+        }
+        
+        .pass {
+            margin-top: 10px;
+        }
+        
+        .submit {
+            margin-top: 30px;
+        }
+        
+        .btn {
+            width: 100px;
+            height: 40px;
+            border-radius: 50px;
+            border: none;
+            font-family: "Exo 2", sans-serif;
+            font-weight: 200;
+            font-style: normal;
+        }
+        
+        .btn:hover {
+            background-color: #d189c2;
+        }
+        
+        label {
+            font-family: "Exo 2", sans-serif;
+            font-weight: lighter;
+            font-style: normal;
+        }
+        
+        .inpfield {
+            width: 150px;
+            height: 20px;
+            border: none;
+            border-radius: 50px;
+        }
+        
+        .authblock {
+            padding-top: 50px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.418);
+            width: 300px;
+            height: 200px;
+            border-radius: 26px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="authblock">
+        <div th:if="${param.error}">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+        <form th:action="@{/login}" method="post">
+            <div class="name"><label> User Name : <input class="inpfield" type="text" name="username"/> </label></div>
+            <div class="pass"><label> Password: <input class="inpfield" type="password" name="password"/> </label></div>
+            <div class="submit"><input class="btn" type="submit" value="Sign In" /></div>
+        </form>
+    </div>
+</body>
+
+</html>
