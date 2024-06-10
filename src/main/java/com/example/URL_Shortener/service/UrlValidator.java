@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -18,7 +17,7 @@ import java.util.regex.Pattern;
 @Component
 public class UrlValidator {
     private final String URL_PATTERN = "^(http|https)://.*$";
-    private final Pattern SHORT_URL_PATTERN = Pattern.compile("/[a-zA-Z0-9]{6,8}($|/.*)");
+    private static final String SHORT_URL_PATTERN = "^http://localhost:9999/[a-zA-Z0-9]{6,8}$";
 
     /**
      * Перевіряє, чи є URL-адреса валідною.
@@ -45,6 +44,7 @@ public class UrlValidator {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(urlString))
                 .build();
+
         try {
             HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
             int statusCode = response.statusCode();
@@ -66,9 +66,8 @@ public class UrlValidator {
      * @throws InvalidUrlException викидається, якщо короткий URL є невалідним.
      */
     public boolean isValidShortUrl(String shortUrlString) throws InvalidUrlException {
-        if (!SHORT_URL_PATTERN.matcher(shortUrlString).find()) {
-            throw new InvalidUrlException("Short URL must be 6-8 characters", shortUrlString);
-        }
+        if(!Pattern.compile(SHORT_URL_PATTERN).matcher(shortUrlString).matches())
+            throw new InvalidUrlException("Short URL must start with 'http://localhost:9999/' and contain 6-8 characters after it", shortUrlString);
         return true;
     }
 
@@ -80,8 +79,8 @@ public class UrlValidator {
      */
     private boolean isValidStatusCode(int statusCode) {
         return statusCode == HttpURLConnection.HTTP_FORBIDDEN ||
-                statusCode == HttpURLConnection.HTTP_UNAUTHORIZED ||
-                statusCode < HttpURLConnection.HTTP_BAD_REQUEST ||
-                statusCode >= HttpURLConnection.HTTP_INTERNAL_ERROR;
+               statusCode == HttpURLConnection.HTTP_UNAUTHORIZED ||
+               (statusCode < HttpURLConnection.HTTP_BAD_REQUEST ||
+               statusCode >= HttpURLConnection.HTTP_INTERNAL_ERROR);
     }
 }
