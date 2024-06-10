@@ -2,6 +2,7 @@ package com.example.URL_Shortener.repository;
 
 import com.example.URL_Shortener.entity.EntityURL;
 import jakarta.transaction.Transactional;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +15,7 @@ import java.util.List;
 @Repository
 public interface RepositoryURL extends JpaRepository<EntityURL, Long> {
 
+    @Cacheable("findByShortURLs")
     @Query(nativeQuery = true, value = "SELECT * FROM urls WHERE shortURL = :shortURL")
     EntityURL findByShortURL(@Param("shortURL") String shortURL);
 
