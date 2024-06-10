@@ -6,6 +6,7 @@ import com.example.URL_Shortener.repository.RepositoryURL;
 import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
 import com.example.URL_Shortener.service.exceptions.NonActiveUrlException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -34,6 +35,10 @@ public class URLServiceImpl implements URLService {
     }
 
     @Override
+    @Cacheable({"findByShortURLs","hortURLs"}) /** <-- turn on cache
+     1 -"No cache could be resolved without comment",
+     2 -"Cache name must be non-empty if specified"
+     */
     public EntityURL findByShortURL(String shortURL) {
         if (shortURL == null) {
             throw new IllegalArgumentException("URL cannot be null");
