@@ -40,7 +40,7 @@ public class URLServiceImplTestV2 {
         url.setOriginURL("https://example.com");
         url.setShortURL("https://short.url");
         url.setCountUse(0L);
-        url.setUserID(UUID.randomUUID());
+        //url.setUserID(UUID.randomUUID());
         url.setCreatingDate(LocalDate.now());
         url.setFinishDate(LocalDate.now().plusDays(1));
 
@@ -65,7 +65,7 @@ public class URLServiceImplTestV2 {
         url1.setOriginURL("https://example1.com");
         url1.setShortURL("https://short1.url");
         url1.setCountUse(0L);
-        url1.setUserID(UUID.randomUUID());
+        //url1.setUserID(UUID.randomUUID());
         url1.setCreatingDate(LocalDate.now());
         url1.setFinishDate(LocalDate.now().plusDays(1));
 
@@ -73,7 +73,7 @@ public class URLServiceImplTestV2 {
         url2.setOriginURL("https://example22.com");
         url2.setShortURL("https://short22.url");
         url2.setCountUse(0L);
-        url2.setUserID(UUID.randomUUID());
+       // url2.setUserID(UUID.randomUUID());
         url2.setCreatingDate(LocalDate.now());
         url2.setFinishDate(LocalDate.now().plusDays(1));
 
@@ -90,7 +90,7 @@ public class URLServiceImplTestV2 {
         url.setOriginURL("https://example1.com");
         url.setShortURL("https://short1.url");
         url.setCountUse(0L);
-        url.setUserID(UUID.randomUUID());
+        //url.setUserID(UUID.randomUUID());
         url.setCreatingDate(LocalDate.now());
         url.setFinishDate(LocalDate.now().plusDays(1));
         when(repositoryURL.findByShortURL(anyString())).thenReturn(url);
@@ -105,7 +105,7 @@ public class URLServiceImplTestV2 {
         existingURL.setOriginURL("https://example_existing.com");
         existingURL.setShortURL("https://short_existing.url");
         existingURL.setCountUse(0L);
-        existingURL.setUserID(UUID.randomUUID());
+       // existingURL.setUserID(UUID.randomUUID());
         existingURL.setCreatingDate(LocalDate.now());
         existingURL.setFinishDate(LocalDate.now().plusDays(1));
 
@@ -113,7 +113,7 @@ public class URLServiceImplTestV2 {
         newURL.setOriginURL("https://example_new.com");
         newURL.setShortURL("https://short_new.url");
         newURL.setCountUse(0L);
-        newURL.setUserID(UUID.randomUUID());
+        //newURL.setUserID(UUID.randomUUID());
         newURL.setCreatingDate(LocalDate.now());
         newURL.setFinishDate(LocalDate.now().plusDays(1));
 
@@ -130,7 +130,7 @@ public class URLServiceImplTestV2 {
         url1.setOriginURL("https://example1.com");
         url1.setShortURL("https://short1.url");
         url1.setCountUse(0L);
-        url1.setUserID(UUID.randomUUID());
+       // url1.setUserID(UUID.randomUUID());
         url1.setCreatingDate(LocalDate.now());
         url1.setFinishDate(LocalDate.now().plusDays(1));
 
@@ -138,7 +138,7 @@ public class URLServiceImplTestV2 {
         url2.setOriginURL("https://example22.com");
         url2.setShortURL("https://short22.url");
         url2.setCountUse(0L);
-        url2.setUserID(UUID.randomUUID());
+        //url2.setUserID(UUID.randomUUID());
         url2.setCreatingDate(LocalDate.now());
         url2.setFinishDate(LocalDate.now().plusDays(1));
 
