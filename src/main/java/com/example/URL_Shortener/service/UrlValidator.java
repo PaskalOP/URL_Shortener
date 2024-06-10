@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 @Component
 public class UrlValidator {
     private static final String URL_PATTERN = "^(http|https)://.*$";
-    private static final String SHORT_URL_PATTERN = "^http://localhost:9999/shorter/[a-zA-Z0-9]{6,8}$";
+    private static final String SHORT_URL_PATTERN = "^http://localhost:9999/[a-zA-Z0-9]{6,8}$";
 
     /**
      * Перевіряє, чи є URL-адреса валідною.
@@ -62,7 +62,7 @@ public class UrlValidator {
      */
     public boolean isValidShortUrl(String shortUrlString) throws InvalidUrlException {
         if(!Pattern.compile(SHORT_URL_PATTERN).matcher(shortUrlString).matches())
-            throw new InvalidUrlException("Short URL must start with 'http://localhost:9999/shorter/' and contain 6-8 characters after it", shortUrlString);
+            throw new InvalidUrlException("Short URL must start with 'http://localhost:9999/' and contain 6-8 characters after it", shortUrlString);
         return true;
     }
     /**

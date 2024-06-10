@@ -1,5 +1,6 @@
 package com.example.URL_Shortener.mapper;
 
+
 import com.example.URL_Shortener.entity.EntityURL;
 import com.example.URL_Shortener.responseDTO.NewShortURL;
 import com.example.URL_Shortener.responseDTO.ResponseURLStatDTO;
@@ -9,7 +10,6 @@ import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.Column;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +24,14 @@ public class Mapper {
     @Autowired private ValidInputData validInputData;
 
 
+
     public EntityURL mapFromURLToEntity(String originURL) {
         if (originURL == null) {
             throw new IllegalArgumentException("Origin URL cannot be null");
         }
+//        SecurityContext context = SecurityContextHolder.getContext();
+//        UserDetailsImpl authentication = (UserDetailsImpl) context.getAuthentication().getPrincipal();
+//        String login =  authentication.getUsername();
 
         NewShortURL newShortURL = creatorShortURL.createShortURL(originURL);
 
@@ -35,7 +39,7 @@ public class Mapper {
         entity.setOriginURL(originURL);
         entity.setShortURL(newShortURL.getShortURL());
         entity.setCountUse(newShortURL.getCountUse());
-        /// entity.setUserID(UUID.randomUUID()); - тут треба підставляти юзера який зайшов
+        //entity.setLogin(login );
         entity.setCreatingDate(newShortURL.getCreatingDate());
         entity.setFinishDate(newShortURL.getFinishingDate());
         return entity;
