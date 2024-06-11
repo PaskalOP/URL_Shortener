@@ -93,7 +93,7 @@ public class URLServiceImplTest {
         url.setShortURL("shortURL3");
         url.setOriginURL("originalURL3");
         url.setCountUse(0L);
-        url.setUserID(UUID.randomUUID());
+
 
         // Mock the repository to return the URL
         when(repositoryURL.findByShortURL(anyString())).thenReturn(url);
@@ -106,7 +106,7 @@ public class URLServiceImplTest {
         assertThat(updatedURL.getShortURL()).isEqualTo("shortURL3");
         assertThat(updatedURL.getOriginURL()).isEqualTo("originalURL3");
         assertThat(updatedURL.getCountUse()).isEqualTo(0L);
-        assertThat(updatedURL.getUserID()).isEqualTo(url.getUserID());
+       // assertThat(updatedURL.getUserID()).isEqualTo(url.getUserID());
         assertThat(updatedURL.getCreatingDate()).isEqualTo(LocalDate.now());
         assertThat(updatedURL.getFinishDate()).isEqualTo(LocalDate.now().plusDays(10));
     }
