@@ -1,6 +1,7 @@
 package com.example.URL_Shortener.service;
 
-import com.example.URL_Shortener.entity.EntityURL;
+import com.example.URL_Shortener.shorter.data.entity.EntityURL;
+import com.example.URL_Shortener.shorter.service.UrlValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

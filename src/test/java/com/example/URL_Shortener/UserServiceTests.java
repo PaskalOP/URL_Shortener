@@ -5,10 +5,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import com.example.URL_Shortener.dto.UserDataDto;
-import com.example.URL_Shortener.entity.User;
-import com.example.URL_Shortener.repository.UserRepository;
-import com.example.URL_Shortener.service.UserService;
+import com.example.URL_Shortener.security.data.dto.UserDataDto;
+import com.example.URL_Shortener.security.data.entity.User;
+import com.example.URL_Shortener.security.repository.UserRepository;
+import com.example.URL_Shortener.security.repository.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

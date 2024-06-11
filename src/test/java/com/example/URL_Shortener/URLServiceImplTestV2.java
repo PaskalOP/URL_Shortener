@@ -1,19 +1,15 @@
 package com.example.URL_Shortener;
 
-import com.example.URL_Shortener.entity.EntityURL;
-import com.example.URL_Shortener.repository.RepositoryURL;
-import com.example.URL_Shortener.service.URLServiceImpl;
+import com.example.URL_Shortener.shorter.data.entity.EntityURL;
+import com.example.URL_Shortener.shorter.repositoryService.RepositoryURL;
+import com.example.URL_Shortener.shorter.repositoryService.URLServiceImpl;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -23,7 +19,6 @@ import static org.mockito.Mockito.*;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
 public class URLServiceImplTestV2 {

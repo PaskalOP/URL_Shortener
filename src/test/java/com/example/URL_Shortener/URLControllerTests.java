@@ -3,15 +3,15 @@ package com.example.URL_Shortener;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-import com.example.URL_Shortener.controller.URLController;
-import com.example.URL_Shortener.data.DataForTest;
-import com.example.URL_Shortener.mapper.Mapper;
-import com.example.URL_Shortener.responseDTO.ResponseURLStatDTO;
-import com.example.URL_Shortener.service.URLServiceImpl;
-import com.example.URL_Shortener.service.UrlValidator;
+import com.example.URL_Shortener.shorter.controller.URLController;
+import com.example.URL_Shortener.shorter.utils.DataForTest;
+import com.example.URL_Shortener.shorter.utils.mapper.Mapper;
+import com.example.URL_Shortener.shorter.data.responseDTO.ResponseURLStatDTO;
+import com.example.URL_Shortener.shorter.repositoryService.URLServiceImpl;
+import com.example.URL_Shortener.shorter.service.UrlValidator;
 
-import com.example.URL_Shortener.entity.EntityURL;
-import com.example.URL_Shortener.service.exceptions.InvalidUrlException;
+import com.example.URL_Shortener.shorter.data.entity.EntityURL;
+import com.example.URL_Shortener.shorter.exceptions.InvalidUrlException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -19,7 +19,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

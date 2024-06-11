@@ -1,8 +1,8 @@
 package com.example.URL_Shortener;
 
 import com.example.URL_Shortener.config.Config;
-import com.example.URL_Shortener.controller.RedirectController;
-import com.example.URL_Shortener.service.URLServiceImpl;
+import com.example.URL_Shortener.shorter.controller.RedirectController;
+import com.example.URL_Shortener.shorter.repositoryService.URLServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

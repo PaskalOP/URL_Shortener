@@ -1,6 +1,6 @@
 package com.example.URL_Shortener;
 
-import com.example.URL_Shortener.controller.RedirectController;
+import com.example.URL_Shortener.shorter.controller.RedirectController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

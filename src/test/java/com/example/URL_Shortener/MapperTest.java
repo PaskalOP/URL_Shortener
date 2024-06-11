@@ -1,8 +1,8 @@
 package com.example.URL_Shortener;
 
-import com.example.URL_Shortener.entity.EntityURL;
-import com.example.URL_Shortener.mapper.Mapper;
-import com.example.URL_Shortener.responseDTO.ResponseURLStatDTO;
+import com.example.URL_Shortener.shorter.data.entity.EntityURL;
+import com.example.URL_Shortener.shorter.utils.mapper.Mapper;
+import com.example.URL_Shortener.shorter.data.responseDTO.ResponseURLStatDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 

@@ -1,8 +1,6 @@
 package com.example.URL_Shortener;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import com.example.URL_Shortener.service.CreatorShortURL;
+import com.example.URL_Shortener.shorter.service.CreatorShortURL;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,8 +1,8 @@
 package com.example.URL_Shortener;
 
-import com.example.URL_Shortener.entity.EntityURL;
-import com.example.URL_Shortener.repository.RepositoryURL;
-import com.example.URL_Shortener.service.URLServiceImpl;
+import com.example.URL_Shortener.shorter.data.entity.EntityURL;
+import com.example.URL_Shortener.shorter.repositoryService.RepositoryURL;
+import com.example.URL_Shortener.shorter.repositoryService.URLServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
