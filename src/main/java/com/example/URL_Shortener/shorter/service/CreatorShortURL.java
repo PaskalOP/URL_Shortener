@@ -1,6 +1,9 @@
 package com.example.URL_Shortener.shorter.service;
 
+import com.example.URL_Shortener.config.Config;
 import com.example.URL_Shortener.shorter.data.entity.EntityURL;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +16,9 @@ import java.util.Random;
  * дату створення і дату закінчення дії, а також ініціалізує лічильник використань.
  */
 @Service
+@RequiredArgsConstructor
 public class CreatorShortURL {
-    @Value("${short.url.validity.days}")
-    private int validityDays;
+    private final Config config;
 
     /**
      * Метод створює новий об'єкт NewShortURL з вказаною оригінальною URL.
@@ -30,6 +33,7 @@ public class CreatorShortURL {
 
         // Формуємо повний короткий URL
         String fullShortURL = "http://localhost:9999/" + shortURL;
+        System.out.println(config.getValidityDays());
 
         // Повертаємо новий об'єкт EntityURL
         return new EntityURL(
@@ -38,7 +42,7 @@ public class CreatorShortURL {
                 0L,
                 login,
                 LocalDate.now(),
-                LocalDate.now().plusDays(validityDays)
+                LocalDate.now().plusDays(config.getValidityDays())
         );
     }
 

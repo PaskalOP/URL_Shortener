@@ -27,6 +27,7 @@ public class URLController {
     public ResponseEntity<String> createShortUrl(@RequestParam String originalUrl) throws InvalidUrlException{
         validator.isValidUrl(originalUrl);
         EntityURL entityURL = mapper.mapFromURLToEntity(originalUrl);
+        System.out.println(entityURL.getFinishDate());
         service.addShortURL(entityURL);
         return ResponseEntity
                 .status(HttpStatus.OK)

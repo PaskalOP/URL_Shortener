@@ -15,7 +15,7 @@ class CreatorShortURLTest {
     @BeforeEach
     void setUp() {
         // Ініціалізуємо об'єкти перед кожним тестом
-        CreatorShortURL creatorShortURL = new CreatorShortURL();
+       // CreatorShortURL creatorShortURL = new CreatorShortURL();
         originURL = "https://goit.global/ua"; // Задаємо початковий URL
         // newShortURL = creatorShortURL.createShortURL(originURL); // Створюємо короткий URL
         expectedDate = LocalDate.now(); // Очікувана дата створення - сьогодні

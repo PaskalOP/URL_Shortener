@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class Mapper {
-    private final CreatorShortURL creatorShortURL = new CreatorShortURL();
+    @Autowired private  CreatorShortURL creatorShortURL;
 
     @Autowired private ValidInputData validInputData;
 

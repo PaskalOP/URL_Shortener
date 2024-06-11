@@ -12,12 +12,15 @@ public class Config {
     public String serverPort = "";
     public String jwtSecret;
     public Long jwtExpiration;
+    public Integer validityDays;
 
     public Config(@Value("${server.port}") String serverPort,
                   @Value("${JWT_SECRET}") String jwtSecret,
-                  @Value("${JWT_EXPIRATION}") Long jwtExpiration){
+                  @Value("${JWT_EXPIRATION}") Long jwtExpiration,
+                  @Value("${short.url.validity.days}") Integer validityDays){
         this.serverPort = serverPort;
         this.jwtSecret = jwtSecret;
         this.jwtExpiration = jwtExpiration;
+        this.validityDays = validityDays;
     }
 }
