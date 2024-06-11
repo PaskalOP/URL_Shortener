@@ -1,55 +1,49 @@
 package com.example.URL_Shortener;
 
+import com.example.URL_Shortener.config.Config;
+import com.example.URL_Shortener.shorter.data.entity.EntityURL;
 import com.example.URL_Shortener.shorter.service.CreatorShortURL;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.Random;
 
-class CreatorShortURLTest {
-    private String originURL; // Початковий URL
-   // private NewShortURL newShortURL; // Створений короткий URL
-    private LocalDate expectedDate; // Очікувана дата створення
-    private LocalDate expectedFinishingDate; // Очікувана дата завершення
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-    @BeforeEach
-    void setUp() {
-        // Ініціалізуємо об'єкти перед кожним тестом
-       // CreatorShortURL creatorShortURL = new CreatorShortURL();
-        originURL = "https://goit.global/ua"; // Задаємо початковий URL
-        // newShortURL = creatorShortURL.createShortURL(originURL); // Створюємо короткий URL
-        expectedDate = LocalDate.now(); // Очікувана дата створення - сьогодні
-        expectedFinishingDate = LocalDate.now().plusDays(10); // Очікувана дата завершення через 10 днів
-    }
+@ExtendWith(MockitoExtension.class)
+class CreatorShortURLTests {
 
-    @Test
-    void testCreateShortURLNotNull() {
-       // assertNotNull(newShortURL); // Перевіряємо, що створений короткий URL не є null
-    }
+ @Mock
+ private Config config;
 
-    @Test
-    void testCreateShortURLOriginURL() {
-        //assertEquals(originURL, newShortURL.getOriginURL()); // Перевіряємо, що початковий URL співпадає
-    }
+ @InjectMocks
+ private CreatorShortURL creatorShortURL;
 
-    @Test
-    void testCreateShortURLShortURL() {
-       // assertNotNull(newShortURL.getShortURL()); // Перевіряємо, що короткий URL не є null
-       // assertTrue(newShortURL.getShortURL().startsWith("http://localhost:")); // Перевіряємо, що короткий URL починається з "http://localhost"
-    }
+ @BeforeEach
+ void setUp() {
+  reset(config);
+  when(config.getValidityDays()).thenReturn(30);
+ }
 
-    @Test
-    void testCreateShortURLCreatingDate() {
-        //assertEquals(expectedDate, newShortURL.getCreatingDate()); // Перевіряємо, що дата створення - сьогодні
-    }
+ @Test
+ void testCreateShortURL() {
+  String originURL = "https://example.com";
+  String login = "user";
 
-    @Test
-    void testCreateShortURLFinishingDate() {
-        //assertNotEquals(expectedFinishingDate, newShortURL.getFinishingDate()); // Перевіряємо, що дата закінчення відповідає конфігурації
-    }
+  EntityURL result = creatorShortURL.createShortURL(originURL, login);
 
-    @Test
-    void testCreateShortURLCountUse() {
-       // assertEquals(0L, newShortURL.getCountUse()); // Перевіряємо, що кількість використань спочатку дорівнює 0
-    }
+  assertNotNull(result);
+  assertEquals(originURL, result.getOriginURL());
+  assertTrue(result.getShortURL().startsWith("http://localhost:9999/"));
+  assertEquals(0L, result.getCountUse());
+  assertEquals(login, result.getLogin());
+  assertEquals(LocalDate.now(), result.getCreatingDate());
+  assertEquals(LocalDate.now().plusDays(30), result.getFinishDate());
+ }
 }
