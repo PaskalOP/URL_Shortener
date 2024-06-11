@@ -17,8 +17,10 @@
             gap: 20px;
             padding: 20px;
             width: 70%;
-            margin: 0 auto;
+            /* margin: 0 auto; */
+            margin-left: 10%;
             margin-top: 100px;
+            /* background-color: #bf8ada; */
         }
         
         .grid-item {
@@ -117,9 +119,10 @@
         }
         
         .btn {
-            margin-top: 30px;
+            margin-top: 10px;
             width: 100%;
             text-align: left;
+            position: relative;
         }
         
         .btn1:hover,
@@ -161,6 +164,10 @@
             margin-left: 40px;
         }
         
+        .edfixwidth {
+            height: 400px;
+        }
+        
         .inputFieldEdit {
             width: 300px;
             height: 40px;
@@ -178,7 +185,7 @@
             /* background-color: #00c7f6; */
             width: 100%;
             text-align: center;
-            margin-top: 50px;
+            margin-top: 130px;
         }
         
         .about {
@@ -207,7 +214,7 @@
             padding-bottom: 10px;
             border-radius: 50px;
             /* background-color: #c692e9; */
-            border: 1px solid #c692e9;
+            border: 1px solid #8831c2;
             cursor: pointer;
         }
         
@@ -217,7 +224,7 @@
         }
         
         .aboutHref:hover {
-            background-color: #c692e9;
+            background-color: #8831c2;
             /* border: 1px solid #c692e9; */
         }
         
@@ -243,6 +250,30 @@
         .miroHref:hover {
             background-color: #dfe23a;
             /* border: 1px solid #c692e9; */
+        }
+        
+        .inputFieldEditJson {
+            max-width: 300px;
+            min-width: 300px;
+            max-height: 200px;
+            min-height: 200px;
+            /* position: absolute; */
+            height: 200px;
+            width: 300px;
+            font-family: "Exo 2", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+            color: black;
+            border-radius: 10px;
+            border: 1px solid black;
+            background-color: #ffffff65;
+        }
+        
+        .links {
+            background-color: transparent;
+            width: 300px;
+            height: 400px;
+            margin-left: 40px;
         }
     </style>
 </head>
@@ -333,14 +364,15 @@
         </div>
 
 
-        <div class="grid-item fixwidth">
+        <div class="grid-item edfixwidth">
             <h2 class="titleBlock">Edit URL</h2>
-            <form class="editForm" action="/api/V2/shorter/editFull " method="post ">
+            <form th:action="@{/api/V2/shorter/editFull}" method="post">
                 <div class="editfieldcomp">
-                    <label class="nameFieldEdit" for="shortURL ">Short URL:</label><br><br>
-                    <input class="inputFieldEdit" type="text " id="shortURL " name="shortUrl "><br><br><br>
-                    <label class="nameFieldEdit" for="newOriginalURL ">New Original URL:</label><br><br>
-                    <input class="inputFieldEdit" type="text " id="newOriginalURL " name="newOriginalURL ">
+                    <label class="nameFieldEdit" for="shortURL">Short URL:</label><br><br>
+                    <input class="inputFieldEdit" type="text" id="shortURL" name="shortURL"><br><br>
+                    <label class="nameFieldEdit" for="data">Data (JSON):</label><br>
+                    <!-- <input class="inputFieldEditJson" type="text" id="data" name="data"><br> -->
+                    <textarea class="inputFieldEditJson" id="data" name="data" rows="10" cols="30"></textarea>
                 </div>
                 <div class="btn">
                     <button class="btned" type="submit">EDIT</button>
@@ -348,7 +380,7 @@
             </form>
         </div>
 
-        <div class="grid-item adaptivewidth">
+        <div class="grid-item links">
             <div class="restsrc">
                 <a class="resthref" href="http://localhost:9999/swagger-ui/index.html"> Rest API documentation </a>
             </div>
