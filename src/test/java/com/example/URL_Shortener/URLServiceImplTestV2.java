@@ -96,14 +96,6 @@ public class URLServiceImplTestV2 {
 
     @Test
     public void testUpdateShortURL() {
-        EntityURL existingURL = new EntityURL();
-        existingURL.setOriginURL("https://example_existing.com");
-        existingURL.setShortURL("https://short_existing.url");
-        existingURL.setCountUse(0L);
-       // existingURL.setUserID(UUID.randomUUID());
-        existingURL.setCreatingDate(LocalDate.now());
-        existingURL.setFinishDate(LocalDate.now().plusDays(1));
-
         EntityURL newURL = new EntityURL();
         newURL.setOriginURL("https://example_new.com");
         newURL.setShortURL("https://short_new.url");
@@ -112,7 +104,6 @@ public class URLServiceImplTestV2 {
         newURL.setCreatingDate(LocalDate.now());
         newURL.setFinishDate(LocalDate.now().plusDays(1));
 
-        when(repositoryURL.findByShortURL(anyString())).thenReturn(existingURL);
         when(repositoryURL.save(any(EntityURL.class))).thenReturn(newURL);
 
         EntityURL updatedURL = urlService.updateShortURL(newURL);
