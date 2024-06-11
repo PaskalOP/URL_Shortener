@@ -10,9 +10,7 @@ import lombok.NoArgsConstructor;
 public class ResponseURLStatDTOForMVC {
 
         private String shortURL;
-
         private String URL;
-
         private Long countUse;
 
 }

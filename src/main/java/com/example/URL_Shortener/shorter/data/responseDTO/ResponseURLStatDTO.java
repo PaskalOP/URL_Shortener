@@ -10,9 +10,6 @@ import org.antlr.v4.runtime.misc.NotNull;
 @Setter
 public class ResponseURLStatDTO {
 
-    @NotNull
     private String URL;
-
-    @NotNull
     private Long countUse;
 }

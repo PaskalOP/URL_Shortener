@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @Service
 public class Mapper {
     @Autowired private  CreatorShortURL creatorShortURL;
-
     @Autowired private ValidInputData validInputData;
 
     public EntityURL mapFromURLToEntity(String originURL) {
@@ -51,23 +50,6 @@ public class Mapper {
         dto.setCountUse(entityURL.getCountUse());
         return dto;
     }
-
-
-//    public EntityURL mapFromNewShortURLToEntity(NewShortURL newShortURL, EntityURL entityURL) {
-//        if (newShortURL == null) {
-//            throw new IllegalArgumentException("NewShortURL cannot be null");
-//        }
-//        entityURL.setShortURL(newShortURL.getShortURL());
-//        entityURL.setOriginURL(newShortURL.getOriginURL());
-//        entityURL.setCountUse(newShortURL.getCountUse());
-//       // entityURL.setUserID(UUID.randomUUID()); - взяти з токена
-//        entityURL.setCreatingDate(newShortURL.getCreatingDate());
-//        entityURL.setFinishDate(newShortURL.getFinishingDate());
-//
-//        return entityURL;
-//
-//    }
-
 
     public List<ResponseURLStatDTOForMVC> mapFromListEntityToListResponseURLStatDTOForMVC(List<EntityURL> entityURLList) {
         return entityURLList.stream()

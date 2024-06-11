@@ -27,12 +27,6 @@ public interface RepositoryURL extends JpaRepository<EntityURL, Long> {
     @Query(nativeQuery = true, value = "DELETE FROM urls WHERE shortURL = :shortURL")
     void deleteURL(@Param("shortURL") String shortURL);
 
-//    @Transactional
-//    @Modifying
-//    @Query(nativeQuery = true, value = "DELETE FROM urls WHERE shortURL LIKE %:shortURL%")
-//    void deleteURL(@Param("shortURL") String shortURL);
-
-
     @Modifying
     @Query(nativeQuery = true, value = "UPDATE urls SET countUse = countUse + 1 WHERE shortURL = :shortURL")
     void increaseCount(@Param("shortURL") String shortURL);

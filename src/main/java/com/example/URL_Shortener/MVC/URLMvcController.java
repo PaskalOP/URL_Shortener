@@ -29,7 +29,6 @@ public class URLMvcController {
         ModelAndView modelAndView = new ModelAndView("redirect:/api/V2/shorter/all");
         EntityURL entityURL = creatorShortURL.createShortURL(originalUrl,"defoult");
         service.addShortURL(entityURL);
-//        modelAndView.setStatus(HttpStatus.OK);
         return modelAndView;
     }
 
