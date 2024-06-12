@@ -7,10 +7,14 @@ import com.example.URL_Shortener.shorter.service.CreatorShortURL;
 import com.example.URL_Shortener.shorter.repositoryService.URLServiceImpl;
 import com.example.URL_Shortener.shorter.service.UrlValidator;
 import com.example.URL_Shortener.shorter.exceptions.InvalidUrlException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 @RestController
 @RequiredArgsConstructor
@@ -51,12 +55,13 @@ public class URLMvcController {
         return modelAndView;
     }
     @PostMapping("/editFull")
-    public ModelAndView editFullObject(@RequestBody String data, @RequestParam String shortUrl) throws IllegalArgumentException {
-        EntityURL entityForEdit = service.findByShortURL(shortUrl);
+    public ModelAndView editFullObject(@RequestParam String shortURL, @RequestParam String data) throws IllegalArgumentException {
+        EntityURL entityForEdit = service.findByShortURL(shortURL);
         EntityURL editedEntity = mapper.mapFromStringToEntity(data, entityForEdit);
         service.updateShortURL(editedEntity);
         return new ModelAndView("redirect:/api/V2/shorter/all");
     }
+
     @PostMapping("/delete")
     public ModelAndView deleteShortURL(@RequestParam String shortURL) {
         ModelAndView modelAndView = new ModelAndView("redirect:/api/V2/shorter/all");

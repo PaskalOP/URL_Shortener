@@ -2,32 +2,32 @@ version: '3.8'
 
 services:
   app:
-    image: shorter-url:2.0
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
+    container_name: ShorterApp
     ports:
       - "9999:9999"
-    depends_on:
-      - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/urlshorter
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: 1234
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      JWT_SECRET: "======================SecretWordForJwt=========================="
-      JWT_EXPIRATION: 86400000
+      SPRING_PROFILES_ACTIVE: postgres
+      URL_POSTGRES: jdbc:postgresql://postgres:5432/urlshorter
+      USERNAME_POSTGRES: postgres
+      PASSWORD_POSTGRES: 1234
+      JWT_SECRET: your_jwt_secret_key
+      JWT_EXPIRATION: 3600000
+    depends_on:
+      - postgres
 
-  db:
-    image: postgres:latest
+  postgres:
+    image: postgres:14
+    container_name: ShorterPostgres
     environment:
       POSTGRES_DB: urlshorter
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1234
     ports:
-      - "5432:5432"
-    volumes:
-      - db_data:/var/lib/postgresql/data
+      - "1234:5432"
+    networks:
+          - app-network
 
-volumes:
-  db_data:
+networks:
+    app-network:
+      driver: bridge

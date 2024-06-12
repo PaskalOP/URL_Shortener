@@ -1,5 +1,6 @@
-FROM openjdk:17
 
+FROM openjdk:17-jdk-slim
+EXPOSE 9999
 WORKDIR /app
-COPY build/libs/URL_Shortener-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY build/libs/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]

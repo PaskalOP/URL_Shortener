@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableCaching  // <-- turn on cache ------------------------------
-//@EnableJpaRepositories(basePackages = "com.example.URL_Shortener.security.repository")
+
 public class UrlShortenerApplication {
 
     public static void main(String[] args) {
